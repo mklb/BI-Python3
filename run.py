@@ -299,3 +299,35 @@ tree = export_graphviz(estimator.tree_, fileName + '.dot', feature_names)
 # create png file
 command = ["dot", "-Tpng", fileName + ".dot", "-o", fileName + ".png"]
 subprocess.check_call(command)
+
+# ----------------------------------------
+# SCORING
+# WARNING: this code / lib throws a DeprecationWarning..ignore that for now!
+# NOTE: THIS DOES NOT WORK WITH THE ACTUAL DATA DUE TO NULL VALS AND FEATURE MISSMATCHES 
+# WE HAVE OTHER FEATURES THAT THE TEST DATA DOES NOT HAVE. WE MIGHT NEED TO TRANSFORM THE TEST DATA?!?!?!
+# ----------------------------------------
+print("\n--------------------------------------SCORING------------------------------------------\n")
+
+def calc_score(actual_survival_array, predictet_survival_array):
+    right_predicted = 0
+    total_array_len = len(actual_survival_array)
+    # break if something is wrong with the input data..
+    if(total_array_len != len(predictet_survival_array)):
+        return
+    # count how many values are perfect predicted
+    for i in range(total_array_len):
+        if(actual_survival_array[i] == predictet_survival_array[i]):
+            right_predicted += 1
+    # return percentage
+    return right_predicted/total_array_len
+
+# TODO: CHANGE THIS TO THE ACTUAL TEST DATA LIKE THIS
+# testDataFrame = pd.read_csv('test.csv')
+
+actual_survival_array = dataframe['Survived'].values
+predictet_survival_array = estimator.predict(dataframe.iloc[:, 1:])
+print("predictet_survival_array:\n", predictet_survival_array, "\n")
+
+score = calc_score(actual_survival_array, predictet_survival_array)
+print("Model score:", score)
+
