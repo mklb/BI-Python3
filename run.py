@@ -263,7 +263,7 @@ create_dummy_vars_from_embarked()
 print("\n--------------------------------------DATASET CLEANING------------------------------------------\n")
 # clean all useless columns
 def delete_usless_columns():
-    columns = ['Pclass', 'Sex', 'Deck', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Brakets", "Cabin", "Embarked", "PreTicketSequence"]
+    columns = ['Pclass', 'Sex', 'Deck', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Brakets", "Cabin", "Embarked", "PreTicketSequence", "Fare"]
     print("Deleting columns: ", columns)
     dataframe.drop(columns, inplace=True, axis=1)
 
@@ -277,8 +277,6 @@ print(dataframe)
 # ----------------------------------------
 # DECISION TREE
 # ----------------------------------------
-# brew install graphviz
-# pip3 install IPython 
 print("\n--------------------------------------DECISION TREE GENERATION------------------------------------------\n")
 import subprocess
 from id3 import Id3Estimator
