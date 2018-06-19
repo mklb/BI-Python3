@@ -132,6 +132,46 @@ prepare_decks()
 create_dummy_vars_from_decks()
 
 # -----------------------------------------------------------
+# FARES
+# -----------------------------------------------------------
+
+
+def cabinenPreisBereinigung():
+    row = 0
+    for cabin in dataframe['Cabin']:
+        if (cabin is not np.nan):
+            anzahl = countCabineNr(cabin)
+            if anzahl>1:
+                #preis durch die Anzahl der Cabinen
+                preis = (dataframe.loc[row, 'Fare'])
+                dataframe.loc[row, 'Fare'] = preis / anzahl
+        row = row + 1
+
+def countCabineNr(cabinenNr):
+    cabinCounter = 0
+    #Mehr als 9 Zimmer sind eh nie in einer Zeile, daher hier hart 10
+    cabinenNrSplitted = cabinenNr.split(' ',10)
+	# was nicht abgefangen wird, ist ob nur der Deckbereich drin steht,
+	# aber das kommt nicht in unseren Daten vor, daher vernachlässigt
+    if (len(cabinenNrSplitted[0])==1):
+        i = 1
+        while i < (len(cabinenNrSplitted)):
+            if(int(len(cabinenNrSplitted[i])>0)):
+                cabinCounter = cabinCounter + 1
+                i = i + 1
+    elif (len(cabinenNrSplitted[0])>0):
+        i = 0
+        while i < (len(cabinenNrSplitted)):
+            if(int(len(cabinenNrSplitted[i])>0)):
+                cabinCounter = cabinCounter + 1
+                i = i + 1
+    else:
+        cabinCounter = 1
+    return cabinCounter
+
+cabinenPreisBereinigung()
+
+# -----------------------------------------------------------
 # TICKETS
 # -----------------------------------------------------------
 def getAllTicketNrs():
