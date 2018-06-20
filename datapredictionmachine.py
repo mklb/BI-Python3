@@ -5,9 +5,11 @@ from id3 import Id3Estimator
 from id3 import export_graphviz
 
 class DataPredictionMachine:
+    # dataframe (Pandas obj)
+    # file_name (String) = output file names (.dot and .png) 
+    # print_commands (Bool) = log to console
     def __init__(self, dataframe, file_name, print_commands):
         self.dataframe = dataframe
-        # output file names (.dot and .png)
         self.file_name = file_name
         self.estimator = None 
         self.print_commands = print_commands
@@ -15,7 +17,7 @@ class DataPredictionMachine:
     def get_dataframe(self):
         return self.dataframe
 
-    #describe dataset
+    # describe dataset
     def describe(self):
         self.__print("\n--------------------------------------DATA DESCRIPTION------------------------------------------\n")
         self.__print("Data preview:\n")
@@ -72,6 +74,7 @@ class DataPredictionMachine:
     def preview(self):
         self.__print("\n--------------------------------------DATASET PREVIEW------------------------------------------\n")
         self.__print(self.dataframe)
+        # TODO: add image generation
 
     def generate_tree(self):
         self.__print("\n--------------------------------------DECISION TREE GENERATION------------------------------------------\n")
@@ -97,9 +100,6 @@ class DataPredictionMachine:
 
     # ----------------------------------------
     # SCORING
-    # WARNING: this code / lib throws a DeprecationWarning..ignore that for now!
-    # NOTE: THIS DOES NOT WORK WITH THE ACTUAL DATA DUE TO NULL VALS AND FEATURE MISSMATCHES 
-    # WE HAVE OTHER FEATURES THAT THE TEST DATA DOES NOT HAVE. WE MIGHT NEED TO TRANSFORM THE TEST DATA?!?!?!
     # ----------------------------------------
     def calc_score(self, df):
         self.__print("\n--------------------------------------SCORING------------------------------------------\n")
@@ -119,15 +119,13 @@ class DataPredictionMachine:
         # return percentage
         return right_predicted/total_array_len
 
-
     # ----------------------------------------------------------------------------------------------------
     # HELPER METHODS
     # ----------------------------------------------------------------------------------------------------
     # just print if it is wanted
     def __print(self, args):
-        if(self.print_commands == False):
-            return
-        print(args)
+        if(self.print_commands):
+            print(args)
 
     # -----------------------------------------------------------
     # TITLES
@@ -336,5 +334,3 @@ class DataPredictionMachine:
         self.dataframe['PortS'] = self.dataframe['Embarked'].map(lambda x: x == 'S')
         self.dataframe['PortC'] = self.dataframe['Embarked'].map(lambda x: x == 'C')
         self.dataframe['PortQ'] = self.dataframe['Embarked'].map(lambda x: x == 'Q')
-
-

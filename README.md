@@ -19,7 +19,9 @@ python3 run.py
 ```
 
 # TODOS
-- [ ] Missing values cleaning
+- [ ] Min/Max tree depth
+- [ ] Image generation for description 
 - [ ] Intense commenting
+- [ ] Missing values 
 - [X] Decision tree calculation (ID3)
-- [ ] Model calculation testing (score)
+- [x] Model calculation testing (score)
