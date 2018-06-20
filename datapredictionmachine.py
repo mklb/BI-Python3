@@ -1,3 +1,4 @@
+import os
 import missingno as msno
 import numpy as np
 import subprocess
@@ -6,11 +7,11 @@ from id3 import export_graphviz
 
 class DataPredictionMachine:
     # dataframe (Pandas obj)
-    # file_name (String) = output file names (.dot and .png) 
+    # run_id (String) = output folder names for all files
     # print_commands (Bool) = log to console
-    def __init__(self, dataframe, file_name, print_commands):
+    def __init__(self, run_id, dataframe, print_commands):
         self.dataframe = dataframe
-        self.file_name = file_name
+        self.run_id = run_id
         self.estimator = None 
         self.print_commands = print_commands
 
@@ -53,11 +54,17 @@ class DataPredictionMachine:
         self.__print(self.__getAllPorts())
         self.__create_dummy_vars_from_embarked()
 
+    def create_describing_images(self):
+        self.__create_output_dir()
+        file_path = "./output/" + self.run_id + "/missing-values-matrix.png"
+        msno.matrix(self.dataframe).figure.savefig(file_path)
+
     def handle_missing_values(self):
         self.__print("TODO: IMPLEMENT THIS...")
         #observe missing values
         # self.__print("Missing Values: ")
-        # msno.matrix(self.dataframe)
+        # file_path = "./output/%s/missing-values-matrix.png" % (self.run_id)
+        # msno.matrix(self.dataframe).figure.savefig()
         # self.__print(self.dataframe.isnull().sum())
         # self.__print("\n\n\n")
 
@@ -77,8 +84,9 @@ class DataPredictionMachine:
         # TODO: add image generation
 
     def generate_tree(self):
+        self.__create_output_dir()
         self.__print("\n--------------------------------------DECISION TREE GENERATION------------------------------------------\n")
-        self.__print("Output file names: " + self.file_name + ".dot " + self.file_name + ".png")
+        self.__print("Output file names: ./output/" + self.run_id + "/tree.dot ./output/" + self.run_id + "/tree.png")
         # the estimator
         self.estimator = Id3Estimator()
         # suvrived
@@ -90,9 +98,9 @@ class DataPredictionMachine:
         # calc the tree
         self.estimator = self.estimator.fit(y, x)
         # export as .dot
-        tree = export_graphviz(self.estimator.tree_, self.file_name + '.dot', feature_names)
+        tree = export_graphviz(self.estimator.tree_, "./output/" + self.run_id + '/tree.dot', feature_names)
         # create png file
-        command = ["dot", "-Tpng", self.file_name + ".dot", "-o", self.file_name + ".png"]
+        command = ["dot", "-Tpng", "./output/" + self.run_id + "/tree.dot", "-o", "./output/" + self.run_id + "/tree.png"]
         subprocess.check_call(command)
 
     def predict(self, other_dataframe):
@@ -126,6 +134,13 @@ class DataPredictionMachine:
     def __print(self, args):
         if(self.print_commands):
             print(args)
+
+    # creates a folder for the given run_id
+    # call this method in every method that outputs a file
+    # so all methods stay independent
+    def __create_output_dir(self):
+        if self.run_id and not os.path.exists("./output/" + self.run_id):
+            os.makedirs("./output/" + self.run_id)
 
     # -----------------------------------------------------------
     # TITLES

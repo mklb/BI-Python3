@@ -5,9 +5,10 @@ from datapredictionmachine import DataPredictionMachine
 # LOAD TRAIN DATA, PREVIEW, CLEAN, GENERATE TREE & LOG
 # -----------------------------------------------------
 train_data_frame = pd.read_csv('train.csv')
-trainer = DataPredictionMachine(train_data_frame, "output", True)
+trainer = DataPredictionMachine("train-1", train_data_frame, True)
 trainer.describe()
 trainer.prepare()
+trainer.create_describing_images() # TODO: not sure when to call this
 trainer.handle_missing_values()
 trainer.clean()
 trainer.preview()
@@ -23,7 +24,7 @@ print("Model score (train data):", score)
 # LOAD THE TEST DATA, TRANSFORM & CLEAN
 # -----------------------------------------------------
 test_data_frame = pd.read_csv('test.csv')
-tester = DataPredictionMachine(test_data_frame, None, False)
+tester = DataPredictionMachine("test-1", test_data_frame, False)
 tester.prepare()
 tester.handle_missing_values()
 tester.clean()
