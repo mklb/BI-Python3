@@ -5,6 +5,7 @@ import subprocess
 from id3 import Id3Estimator
 from id3 import export_graphviz
 
+# This class handles the data transformation, cleaning, tree generation and scoring
 class DataPredictionMachine:
     # dataframe (Pandas obj)
     # run_id (String) = output folder names for all files
@@ -15,6 +16,7 @@ class DataPredictionMachine:
         self.estimator = None 
         self.print_commands = print_commands
 
+    # return the dataframe
     def get_dataframe(self):
         return self.dataframe
 
@@ -54,11 +56,13 @@ class DataPredictionMachine:
         self.__print(self.__getAllPorts())
         self.__create_dummy_vars_from_embarked()
 
+    # describe the dataset as images and save them
     def create_describing_images(self):
         self.__create_output_dir()
         file_path = "./output/" + self.run_id + "/missing-values-matrix.png"
         msno.matrix(self.dataframe).figure.savefig(file_path)
 
+    # handle all missing values of the dataset
     def handle_missing_values(self):
         self.__print("TODO: IMPLEMENT THIS...")
         #observe missing values
@@ -71,6 +75,7 @@ class DataPredictionMachine:
         # TODO: DELETE! THIS IS JUST FOR MAKING THE MODEL WORK (DOES NOT WORK WITH STRING ATTRIBUTES CURRENTLY)
         self.dataframe = self.dataframe.fillna(0)
 
+    # delete unused columns that are not needet for the model
     def clean(self):
         self.__print("\n--------------------------------------DATASET CLEANING------------------------------------------\n")
         columns = ['Pclass', 'Sex', 'Deck', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Brakets", "Cabin", "Embarked", "PreTicketSequence", "Fare"]
@@ -78,11 +83,13 @@ class DataPredictionMachine:
         self.__print(columns)
         self.dataframe.drop(columns, inplace=True, axis=1)
 
+    # print a short preview of the dataset
     def preview(self):
         self.__print("\n--------------------------------------DATASET PREVIEW------------------------------------------\n")
         self.__print(self.dataframe)
         # TODO: add image generation
 
+    # generate a ID3 tree
     def generate_tree(self, max_depth):
         self.__create_output_dir()
         self.__print("\n--------------------------------------DECISION TREE GENERATION------------------------------------------\n")
@@ -103,16 +110,16 @@ class DataPredictionMachine:
         command = ["dot", "-Tpng", "./output/" + self.run_id + "/tree.dot", "-o", "./output/" + self.run_id + "/tree.png"]
         subprocess.check_call(command)
 
+    # predict the survival for the given dataframe
     def predict(self, other_dataframe):
         return self.estimator.predict(other_dataframe)
 
-    # ----------------------------------------
-    # SCORING
-    # ----------------------------------------
-    def calc_score(self, df):
+    # score the current model with a given dataframe
+    # this dataframe needs to have the survival columns as the first column
+    def calc_score(self, other_dataframe):
         self.__print("\n--------------------------------------SCORING------------------------------------------\n")
-        actual_survival_array = df['Survived'].values
-        predictet_survival_array = self.predict(df.iloc[:, 1:])
+        actual_survival_array = other_dataframe['Survived'].values
+        predictet_survival_array = self.predict(other_dataframe.iloc[:, 1:])
         # self.__print("predictet_survival_array:\n", predictet_survival_array, "\n")
 
         right_predicted = 0
@@ -145,8 +152,8 @@ class DataPredictionMachine:
     # -----------------------------------------------------------
     # TITLES
     # -----------------------------------------------------------
-    # handle name
-    # extract title
+    # returns all titles as a dict
+    # {'Mr': 517, 'Mrs': 126, 'Miss': 185, 'Master': 40, 'Don': 1, 'Rev': 6, 'Dr': 7, 'Major': 2, 'Lady': 1, 'Sir': 1, 'Col': 2, 'Capt': 1, 'the Countess': 1, 'Jonkheer': 1}
     def __getAllTitles(self):
         titles = {}
         for name in self.dataframe['Name']:
@@ -157,8 +164,7 @@ class DataPredictionMachine:
                 titles[title] = 1
                 return titles
 
-
-    # {'Mr': 517, 'Mrs': 126, 'Miss': 185, 'Master': 40, 'Don': 1, 'Rev': 6, 'Dr': 7, 'Major': 2, 'Lady': 1, 'Sir': 1, 'Col': 2, 'Capt': 1, 'the Countess': 1, 'Jonkheer': 1}
+    # categorize the title
     def __extractTitle(self, name):
         # get the title
         title = name.split(',')[1].split('.')[0].strip()
@@ -193,7 +199,7 @@ class DataPredictionMachine:
     # -----------------------------------------------------------
     # SURNAME
     # -----------------------------------------------------------
-    # extract brakets
+    # extract brakets from name
     def __splitBrakets(self, name):
         try:
             res = name.split('(')[1].split(')')[0].strip()
@@ -205,9 +211,11 @@ class DataPredictionMachine:
     def __prepare_surnames(self):
         self.dataframe['Surname'] = self.dataframe['Name'].map(lambda name:name.split(',')[0].strip())
 
+    # extract name
     def __prepare_firstnames(self):
         self.dataframe['FirstNames'] = self.dataframe['Name'].map(lambda name:name.split('.')[1].split('(')[0].strip())
 
+    # extract content in brakets
     def __prepare_brakets(self):
         self.dataframe['Brakets'] = self.dataframe['Name'].map(lambda name: self.__splitBrakets(name))
 
@@ -221,9 +229,12 @@ class DataPredictionMachine:
             res = np.NaN
             return res
 
+    # extract deck
     def __prepare_decks(self):
         self.dataframe['Deck'] = self.dataframe['Cabin'].map(lambda cabin:self.__extractDeck(cabin))
 
+    # returns all decks from the dataset as a dict
+    # {nan: 687, 'C': 59, 'E': 32, 'G': 4, 'D': 33, 'A': 15, 'B': 47, 'F': 13, 'T': 1}
     def __getAllDecks(self):
         decks = {}
         for cabin in self.dataframe['Cabin']:
@@ -234,7 +245,6 @@ class DataPredictionMachine:
                 decks[deck] = 1
                 return decks
 
-    # {nan: 687, 'C': 59, 'E': 32, 'G': 4, 'D': 33, 'A': 15, 'B': 47, 'F': 13, 'T': 1}
     def __create_dummy_vars_from_decks(self):
         self.__print("create_dummy_vars_from_decks():  Deck -> DeckA / DeckB / DeckC / DeckD / DeckE / DeckF / DeckG / DeckT \n")
         self.dataframe['DeckA'] = self.dataframe['Deck'].map(lambda x: x == "A")
@@ -286,9 +296,11 @@ class DataPredictionMachine:
         else:
             cabinCounter = 1
         return cabinCounter
+
     # -----------------------------------------------------------
     # TICKETS
     # -----------------------------------------------------------
+    # returns all ticket numbers from the dataset
     def __getAllTicketNrs(self):
         ticketnrs = {}
         for ticketnr in self.dataframe['Ticket']:
@@ -299,8 +311,7 @@ class DataPredictionMachine:
                 ticketnrs[preSequence] = 1
                 return ticketnrs
 
-    # handle ticket number
-    # extract pre sequence
+    # extract tichet nr
     def __extractTicketNr(self, ticketnr):
         try:
             if(any(c.isalpha() for c in ticketnr)):
@@ -311,6 +322,7 @@ class DataPredictionMachine:
             res = np.NaN
         return res
 
+    # extract pre sequence
     def __prepare_ticket_sequence(self):
         self.dataframe['PreTicketSequence'] = self.dataframe['Ticket'].map(lambda ticketnr: self.__extractTicketNr(ticketnr))
 
@@ -334,6 +346,7 @@ class DataPredictionMachine:
     # -----------------------------------------------------------
     # PORTS
     # -----------------------------------------------------------
+    # returns all ports from the dataset
     # {'S': 644, 'C': 168, 'Q': 77, nan: 2} 
     def __getAllPorts(self):
         ports = {}

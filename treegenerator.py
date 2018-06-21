@@ -4,11 +4,11 @@ from datapredictionmachine import DataPredictionMachine
 min_depth = 1
 # without restriction the generated depth is 11
 max_depth = 11
-
+# holds all scores from all generated trees
 scores = {}
 
 # -----------------------------------------------------
-# LOAD TRAIN DATA, PREVIEW, CLEAN, GENERATE TREE & LOG
+# LOAD TRAIN DATA, CLEAN, GENERATE TREE OF DEPTH i
 # -----------------------------------------------------
 for i in range(min_depth,max_depth+1):
   test_id = "tree-generator-" + str(i)
@@ -24,7 +24,7 @@ for i in range(min_depth,max_depth+1):
 
   scores[test_id] = trainer.calc_score(trainer.get_dataframe())
 
-# print("Model score (" + test_id + "):", score)
+# print all scores and the highest score
 print("\nAll scores:\n")
 print(scores)
 
