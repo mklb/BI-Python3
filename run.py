@@ -4,7 +4,7 @@ from datapredictionmachine import DataPredictionMachine
 # -----------------------------------------------------
 # LOAD TRAIN DATA, PREVIEW, CLEAN, GENERATE TREE & LOG
 # -----------------------------------------------------
-train_data_frame = pd.read_csv('train.csv')
+train_data_frame = pd.read_csv('./data/train.csv')
 trainer = DataPredictionMachine("train-1", train_data_frame, True)
 trainer.describe()
 trainer.prepare()
@@ -12,7 +12,7 @@ trainer.create_describing_images() # TODO: not sure when to call this
 trainer.handle_missing_values()
 trainer.clean()
 trainer.preview()
-trainer.generate_tree()
+trainer.generate_tree(None) # no max depth
 
 # -----------------------------------------------------
 # CALC SCORE WITH THE TRAINED SET
@@ -23,7 +23,7 @@ print("Model score (train data):", score)
 # -----------------------------------------------------
 # LOAD THE TEST DATA, TRANSFORM & CLEAN
 # -----------------------------------------------------
-test_data_frame = pd.read_csv('test.csv')
+test_data_frame = pd.read_csv('./data/test.csv')
 tester = DataPredictionMachine("test-1", test_data_frame, False)
 tester.prepare()
 tester.handle_missing_values()
@@ -38,8 +38,8 @@ print("Predicted survival for test data:\n", predict_survival)
 # -----------------------------------------------------
 # SCORE AGAINST COMPLETE DATASET
 # -----------------------------------------------------
-# test_data_frame2 = pd.read_csv('test2.csv')
-# tester2 = DataPredictionMachine(test_data_frame2, None, False)
+# test_data_frame2 = pd.read_csv('./data/test2.csv')
+# tester2 = DataPredictionMachine("test-2", test_data_frame2, False)
 # tester2.prepare()
 # tester2.handle_missing_values()
 # tester2.clean()

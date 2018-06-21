@@ -83,12 +83,12 @@ class DataPredictionMachine:
         self.__print(self.dataframe)
         # TODO: add image generation
 
-    def generate_tree(self):
+    def generate_tree(self, max_depth):
         self.__create_output_dir()
         self.__print("\n--------------------------------------DECISION TREE GENERATION------------------------------------------\n")
         self.__print("Output file names: ./output/" + self.run_id + "/tree.dot ./output/" + self.run_id + "/tree.png")
         # the estimator
-        self.estimator = Id3Estimator()
+        self.estimator = Id3Estimator(max_depth)
         # suvrived
         x = self.dataframe.iloc[:, 0]
         # all attributes except survieved

@@ -1,0 +1,14 @@
+digraph ID3_Tree {
+"0" [shape=box, style=filled, label="Male
+", weight=1]
+"1" [shape=box, style=filled, label="1
+(233/81)
+", weight=2]
+0 -> 1 [ label = "<=0.50"];
+"2" [shape=box, style=filled, label="0
+(468/109)
+", weight=2]
+0 -> 2 [ label = ">0.50"];
+{rank=same; 0;};
+{rank=same; 1;2;};
+}
