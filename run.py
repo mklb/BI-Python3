@@ -174,7 +174,7 @@ def countCabineNr(cabinenNr):
         cabinCounter = 1
     return cabinCounter
 
-faresCleaning()
+#faresCleaning()
 
 # -----------------------------------------------------------
 # TICKETS
@@ -254,6 +254,58 @@ create_dummy_vars_from_embarked()
 # MISSING VALS
 # -----------------------------------------------------------
 
+
+from scipy.stats import chi2_contingency
+
+def findAllMissingValueTypes():
+    print("\n\n\nMissing Value Analysis\n")
+    print(dataframe.isnull().sum())
+    for column,numberOfMissings in (dataframe.isnull().sum().items()):
+        if(numberOfMissings>0):
+            if(numberOfMissings > dataframe.shape[0]*2//3):
+                dataframe.drop(column, axis = 1, inplace = True)
+            else:
+                findMissingValueType(column)
+    print(dataframe.isnull().sum())
+
+def findMissingValueType(column):
+    print(column)
+    createBinaryMissingClassification(column)
+    name = column + 'Missing'
+    corr = dataframe.corr()
+    np.fill_diagonal(corr.values, 0)
+    corr_filtered = corr.filter([name], axis=0)
+    corr_triu = corr_filtered.where(~np.tril(np.ones(corr_filtered.shape)).astype(np.bool))
+    corr_triu = corr_triu.stack()
+    corr_triu = corr_triu[(corr_triu > 0.7) | (corr_triu < -0.7)]
+    if(corr_triu.size == 0):
+        print("Missing Completly At Random")
+        if(dataframe[column].dtypes == np.float64 or dataframe[column].dtypes == np.int64):
+            dataframe[column].fillna(dataframe[column].mean(), inplace=True)
+        else:
+            dataframe[column].fillna(dataframe[column].mode()[0], inplace=True)
+    else:
+        print("Missing At Random or Missing Not At Random")
+        dataframe.drop(column, axis = 1, inplace = True)
+    dataframe.drop(name, axis = 1, inplace = True)
+
+def createBinaryMissingClassification(column):
+    name = column + 'Missing'
+    dataframe[name] = dataframe[column].map(lambda x:getMissing(x))
+
+def getMissing(x):
+    if(x != x):
+        return False
+    else:
+        return True
+
+
+findAllMissingValueTypes()
+dataframe.head()
+
+import sys
+sys.exit()
+
 #observe missing values
 # print("Missing Values: ")
 # msno.matrix(dataframe)
@@ -271,6 +323,9 @@ delete_usless_columns()
 
 print("\n--------------------------------------DATASET PREVIEW------------------------------------------\n")
 # TODO: DELETE! THIS IS JUST FOR MAKING THE MODEL WORK (DOES NOT WORK WITH STRING ATTRIBUTES CURRENTLY)
+
+
+
 dataframe = dataframe.fillna(0)
 print(dataframe)
 
@@ -299,3 +354,6 @@ tree = export_graphviz(estimator.tree_, fileName + '.dot', feature_names)
 # create png file
 command = ["dot", "-Tpng", fileName + ".dot", "-o", fileName + ".png"]
 subprocess.check_call(command)
+
+
+
