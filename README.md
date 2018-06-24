@@ -35,7 +35,8 @@ Highest score: ('tree-generator-9', 0.8552188552188552)
 
 # TODOS
 
-- [ ] Image generation for description 
+- [ ] Image generation for description https://community.modeanalytics.com/python/tutorial/python-histograms-boxplots-and-distributions/
+- [ ] Master -> Child unter 12 years .. not a slaves
 - [ ] Intense commenting
 - [ ] Missing values 
 - [x] Max tree depth
