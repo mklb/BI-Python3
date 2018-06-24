@@ -224,8 +224,8 @@ class DataPredictionMachine:
         title = title.replace("Ms", "Miss")
         # all mrs
         title = title.replace("Mme", "Mrs")
-        # all people who have masters are slaves.. 
-        title = title.replace("Master", "Slave")
+        # all people who have masters are children unter 12
+        title = title.replace("Master", "Child")
         return title
 
     def __pepare_titles(self):
@@ -233,13 +233,13 @@ class DataPredictionMachine:
         self.dataframe['Title'] = self.dataframe['Name'].map(lambda name: self.__extractTitle(name))
 
     def __create_dummy_vars_from_title(self):
-        self.__print("create_dummy_vars_from_title():  Title -> Royal / Rare / Slave \n")
+        self.__print("create_dummy_vars_from_title():  Title -> Royal / Rare / Child \n")
         self.dataframe['Royal'] = self.dataframe['Title'].map(lambda title: title == "Royal")
         self.dataframe['Rare'] = self.dataframe['Title'].map(lambda title: title == "Rare")
-        self.dataframe['Slave'] = self.dataframe['Title'].map(lambda title: title == "Slave")
+        self.dataframe['Child'] = self.dataframe['Title'].map(lambda title: title == "Child")
 
     # -----------------------------------------------------------
-    # SURNAME
+    # SURNAME (We do nut use this..)
     # -----------------------------------------------------------
     # extract brakets from name
     def __splitBrakets(self, name):
@@ -340,7 +340,7 @@ class DataPredictionMachine:
         return cabinCounter
 
     # -----------------------------------------------------------
-    # TICKETS
+    # TICKETS (We do nut use this..)
     # -----------------------------------------------------------
     # returns all ticket numbers from the dataset
     def __getAllTicketNrs(self):

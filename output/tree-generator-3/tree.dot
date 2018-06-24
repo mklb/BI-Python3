@@ -26,7 +26,7 @@ digraph ID3_Tree {
 (24/3)
 ", weight=4]
 5 -> 7 [ label = ">23.35"];
-"8" [shape=box, style=filled, label="Slave
+"8" [shape=box, style=filled, label="Child
 ", weight=2]
 0 -> 8 [ label = ">0.50"];
 "9" [shape=box, style=filled, label="CleanedFares
