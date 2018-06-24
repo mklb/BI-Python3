@@ -150,7 +150,7 @@ class DataPredictionMachine:
         tree = export_graphviz(self.estimator.tree_, "./output/" + self.run_id + '/tree.dot', feature_names)
         # create png file
         command = ["dot", "-Tpng", "./output/" + self.run_id + "/tree.dot", "-o", "./output/" + self.run_id + "/tree.png"]
-        #subprocess.check_call(command)
+        subprocess.check_call(command)
 
     # predict the survival for the given dataframe
     def predict(self, other_dataframe):
