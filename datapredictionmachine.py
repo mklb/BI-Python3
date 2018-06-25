@@ -45,8 +45,11 @@ class DataPredictionMachine:
         self.__print("All decks:")
         self.__print(self.__getAllDecks())
         self.__prepare_decks()
-        self.__create_dummy_vars_from_decks()
-        self.__faresCleaning()
+        self.__prepareNrOfCabins()
+        #self.__create_dummy_vars_from_decks()
+        self.__prepareFamilysize()
+        self.__calcFaresPerCabin()
+        self.__calcFaresPerPerson()
         self.__print("All ticket sequences:")
         self.__print(self.__getAllTicketNrs())
         self.__prepare_ticket_sequence()
@@ -120,7 +123,7 @@ class DataPredictionMachine:
     def clean(self):
         self.__print("\n--------------------------------------DATASET CLEANING------------------------------------------\n")
         #columns = ['Pclass', 'Sex', 'Deck', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Brakets", "Cabin", "Embarked", "PreTicketSequence", "Fare"]
-        columns = ['Pclass', 'Sex', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Embarked", "Fare"]
+        columns = ['Pclass', 'Sex', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Embarked"]
         self.__print("Deleting columns:")
         self.__print(columns)
         self.dataframe.drop(columns, inplace=True, axis=1)
@@ -147,10 +150,12 @@ class DataPredictionMachine:
         # calc the tree
         self.estimator = self.estimator.fit(y, x)
         # export as .dot
-        tree = export_graphviz(self.estimator.tree_, "./output/" + self.run_id + '/tree.dot', feature_names)
+        dot_data = export_graphviz(self.estimator.tree_, './output/' + self.run_id + '/tree.dot', feature_names)
         # create png file
-        command = ["dot", "-Tpng", "./output/" + self.run_id + "/tree.dot", "-o", "./output/" + self.run_id + "/tree.png"]
-        #subprocess.check_call(command)
+        #command = ["dot", "-Tpng", './output/' + self.run_id + '/tree.dot', "-o", "./output/" + self.run_id + "/tree.png"]
+        #subprocess.check_call(command, shell=True)
+        command = "dot -Tpng " + './output/' + self.run_id + '/tree.dot' + " -o "+ "./output/" + self.run_id + "/tree.png" #Tsvg can be changed to Tjpg, Tpng, Tgif etc (see dot man pages)
+        os.system(command)
 
     # predict the survival for the given dataframe
     def predict(self, other_dataframe):
@@ -247,7 +252,7 @@ class DataPredictionMachine:
             res = name.split('(')[1].split(')')[0].strip()
         except:
             res = np.NaN
-            return res
+        return res
 
     # extract surname
     def __prepare_surnames(self):
@@ -269,7 +274,7 @@ class DataPredictionMachine:
             res = cabin[0]
         except:
             res = np.NaN
-            return res
+        return res
 
     # extract deck
     def __prepare_decks(self):
@@ -298,25 +303,65 @@ class DataPredictionMachine:
         self.dataframe['DeckG'] = self.dataframe['Deck'].map(lambda x: x == "G")
         self.dataframe['DeckT'] = self.dataframe['Deck'].map(lambda x: x == "T")
 
+    def __prepareNrOfCabins(self):
+        self.dataframe['NrOfCabins'] = self.dataframe['Cabin'].map(lambda cabin:self.__calcNrOfCabins(cabin))
+    
+    def __calcNrOfCabins(self, cabin):
+        cabinCounter = 0
+        try:
+            cabins = cabin.split(" ")
+            for c in cabins:
+                if(len(c)>2):
+                    cabinCounter += 1
+        except:
+            cabinCounter = np.NaN
+        return cabinCounter
+        
+    
     # -----------------------------------------------------------
     # FARES
     # -----------------------------------------------------------
-    def __faresCleaning(self):
+    def __calcFaresPerCabin(self):
         row = 0
-        self.dataframe['CleanedFares'] = np.nan
-        for cabin in self.dataframe['Cabin']:
+        self.dataframe['FarePerCabin'] = np.nan
+        for cabinCounter in self.dataframe['NrOfCabins']:
             temp_fare = (self.dataframe.loc[row, 'Fare'])
-            if (cabin is not np.nan):
-                cabinNumberTotal = self.__countCabineNr(cabin)
-                if cabinNumberTotal>1:
-                    #Preis durch die Anzahl der Cabinen
-                    self.dataframe.loc[row, 'CleanedFares'] = temp_fare / cabinNumberTotal
-                else:
-                    self.dataframe.loc[row, 'CleanedFares'] = temp_fare
+            if(np.isnan(cabinCounter)):
+                self.dataframe.loc[row, 'FarePerCabin'] = np.NaN
             else:
-                self.dataframe.loc[row, 'CleanedFares'] = temp_fare
+                if cabinCounter>1:
+                    #Preis durch die Anzahl der Cabinen
+                    self.dataframe.loc[row, 'FarePerCabin'] = temp_fare / cabinCounter
+                else:
+                    self.dataframe.loc[row, 'FarePerCabin'] = temp_fare
             row = row + 1
 
+    def __calcFaresPerPerson(self):
+        row = 0
+        self.dataframe['FarePerPerson'] = np.nan
+        for familysize in self.dataframe['Familysize']:
+            temp_fare = (self.dataframe.loc[row, 'Fare'])
+            if(np.isnan(familysize)):
+                self.dataframe.loc[row, 'FarePerPerson'] = np.NaN
+            else:
+                if familysize>1:
+                    #Preis durch die Anzahl der Cabinen
+                    self.dataframe.loc[row, 'FarePerPerson'] = temp_fare / familysize
+                else:
+                    self.dataframe.loc[row, 'FarePerPerson'] = temp_fare
+            row = row + 1
+    
+    def __prepareFamilysize(self):
+        row = 0
+        self.dataframe['Familysize'] = np.nan
+        for parch,sibsp in zip(self.dataframe['Parch'], self.dataframe['SibSp']):
+            self.dataframe['Familysize'] = 1 + parch + sibsp
+            row = row + 1
+        #self.dataframe['Familysize'] = self.dataframe['Parch', 'Sibsp'].map(lambda (parch,sibsp):self.__calcFamilysize(parch, sibsp))
+    
+    def __calcFamilysize(self, parch, sibsp):
+        return (1 + parch + sibsp)
+    
     def __countCabineNr(self, cabinenNr):
         cabinCounter = 0
         #Mehr als 9 Zimmer sind eh nie in einer Zeile, daher hier max 10 Splits

@@ -4,38 +4,38 @@ digraph ID3_Tree {
 "1" [shape=box, style=filled, label="ThirdClass
 ", weight=2]
 0 -> 1 [ label = "<=0.50"];
-"2" [shape=box, style=filled, label="CleanedFares
+"2" [shape=box, style=filled, label="FarePerCabin
 ", weight=3]
 1 -> 2 [ label = "<=0.50"];
-"3" [shape=box, style=filled, label="Age
+"3" [shape=box, style=filled, label="Fare
 ", weight=4]
 2 -> 3 [ label = "<=76.03"];
 "4" [shape=box, style=filled, label="1
-(36/1)
+(104/7)
 ", weight=5]
-3 -> 4 [ label = "<=23.50"];
-"5" [shape=box, style=filled, label="1
-(70/8)
+3 -> 4 [ label = "<=135.77"];
+"5" [shape=box, style=filled, label="0
+(2/2)
 ", weight=5]
-3 -> 5 [ label = ">23.50"];
+3 -> 5 [ label = ">135.77"];
 "6" [shape=box, style=filled, label="1
 (55)
 ", weight=4]
 2 -> 6 [ label = ">76.03"];
-"7" [shape=box, style=filled, label="CleanedFares
+"7" [shape=box, style=filled, label="Fare
 ", weight=3]
 1 -> 7 [ label = ">0.50"];
 "8" [shape=box, style=filled, label="Age
 ", weight=4]
 7 -> 8 [ label = "<=23.35"];
 "9" [shape=box, style=filled, label="1
-(41/16)
+(68/42)
 ", weight=5]
-8 -> 9 [ label = "<=16.50"];
+8 -> 9 [ label = "<=36.50"];
 "10" [shape=box, style=filled, label="0
-(32/28)
+(6/1)
 ", weight=5]
-8 -> 10 [ label = ">16.50"];
+8 -> 10 [ label = ">36.50"];
 "11" [shape=box, style=filled, label="Parch
 ", weight=4]
 7 -> 11 [ label = ">23.35"];
@@ -50,7 +50,7 @@ digraph ID3_Tree {
 "14" [shape=box, style=filled, label="Slave
 ", weight=2]
 0 -> 14 [ label = ">0.50"];
-"15" [shape=box, style=filled, label="CleanedFares
+"15" [shape=box, style=filled, label="Fare
 ", weight=3]
 14 -> 15 [ label = "<=0.50"];
 "16" [shape=box, style=filled, label="Age
@@ -86,11 +86,11 @@ digraph ID3_Tree {
 ", weight=4]
 22 -> 24 [ label = ">2.50"];
 "25" [shape=box, style=filled, label="0
-(7/1)
+(5/1)
 ", weight=5]
 24 -> 25 [ label = "<=3.50"];
 "26" [shape=box, style=filled, label="0
-(10)
+(12)
 ", weight=5]
 24 -> 26 [ label = ">3.50"];
 {rank=same; 0;};

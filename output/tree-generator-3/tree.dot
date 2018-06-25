@@ -4,7 +4,7 @@ digraph ID3_Tree {
 "1" [shape=box, style=filled, label="ThirdClass
 ", weight=2]
 0 -> 1 [ label = "<=0.50"];
-"2" [shape=box, style=filled, label="CleanedFares
+"2" [shape=box, style=filled, label="FarePerCabin
 ", weight=3]
 1 -> 2 [ label = "<=0.50"];
 "3" [shape=box, style=filled, label="1
@@ -15,7 +15,7 @@ digraph ID3_Tree {
 (55)
 ", weight=4]
 2 -> 4 [ label = ">76.03"];
-"5" [shape=box, style=filled, label="CleanedFares
+"5" [shape=box, style=filled, label="Fare
 ", weight=3]
 1 -> 5 [ label = ">0.50"];
 "6" [shape=box, style=filled, label="1
@@ -29,7 +29,7 @@ digraph ID3_Tree {
 "8" [shape=box, style=filled, label="Slave
 ", weight=2]
 0 -> 8 [ label = ">0.50"];
-"9" [shape=box, style=filled, label="CleanedFares
+"9" [shape=box, style=filled, label="Fare
 ", weight=3]
 8 -> 9 [ label = "<=0.50"];
 "10" [shape=box, style=filled, label="0
