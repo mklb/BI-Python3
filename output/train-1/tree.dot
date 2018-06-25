@@ -243,7 +243,7 @@ digraph ID3_Tree {
 (6)
 ", weight=8]
 67 -> 69 [ label = ">1.50"];
-"70" [shape=box, style=filled, label="Slave
+"70" [shape=box, style=filled, label="Child
 ", weight=2]
 0 -> 70 [ label = ">0.50"];
 "71" [shape=box, style=filled, label="Fare

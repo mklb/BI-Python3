@@ -37,7 +37,7 @@ Highest score: ('tree-generator-9', 0.8552188552188552)
 
 - [ ] Image generation for description 
 - [ ] Intense commenting
-- [ ] Missing values 
+- [X] Missing values 
 - [x] Max tree depth
 - [X] Decision tree calculation (ID3)
 - [x] Model calculation testing (score)
