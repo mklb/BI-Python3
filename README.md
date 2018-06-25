@@ -45,4 +45,4 @@ Highest score: ('tree-generator-9', 0.8552188552188552)
 
 ## Notes
 
-Skylearn shrows an error like `sklearn/preprocessing/label.py:151: DeprecationWarning: The truth value of an empty array is ambiguous. Returning False, but in future this will result in an error. Use `array.size > 0` to check that an array is not empty.` This is a dependency issue and can be safely ignored..[see here](https://stackoverflow.com/questions/48687375/deprecation-error-in-sklearn-about-empty-array-without-any-empty-array-in-my-cod)
+Sklearn shrows an error like `sklearn/preprocessing/label.py:151: DeprecationWarning: The truth value of an empty array is ambiguous. Returning False, but in future this will result in an error. Use `array.size > 0` to check that an array is not empty.` This is a dependency issue and can be safely ignored..[see here](https://stackoverflow.com/questions/48687375/deprecation-error-in-sklearn-about-empty-array-without-any-empty-array-in-my-cod)
