@@ -8,8 +8,9 @@ train_data_frame = pd.read_csv('./data/train.csv')
 trainer = DataPredictionMachine("train-1", train_data_frame, True)
 trainer.describe()
 trainer.prepare()
-trainer.create_describing_images() # TODO: not sure when to call this
 trainer.handle_missing_values()
+#trainer.create_describing_images()
+trainer.create_dummy_vars()
 trainer.clean()
 trainer.preview()
 trainer.generate_tree(None) # no max depth
@@ -27,6 +28,7 @@ test_data_frame = pd.read_csv('./data/test.csv')
 tester = DataPredictionMachine("test-1", test_data_frame, False)
 tester.prepare()
 tester.handle_missing_values()
+tester.create_dummy_vars()
 tester.clean()
 
 # -----------------------------------------------------

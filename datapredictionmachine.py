@@ -1,7 +1,8 @@
 import os
 import missingno as msno
 import numpy as np
-import subprocess
+import matplotlib.pyplot as plt
+import seaborn as sns
 from id3 import Id3Estimator
 from id3 import export_graphviz
 
@@ -10,8 +11,8 @@ class DataPredictionMachine:
     # dataframe (Pandas obj)
     # run_id (String) = output folder names for all files
     # print_commands (Bool) = log to console
-    def __init__(self, run_id, dataframe, print_commands):
-        self.dataframe = dataframe
+    def __init__(self, run_id, data, print_commands):
+        self.dataframe = data
         self.run_id = run_id
         self.estimator = None 
         self.print_commands = print_commands
@@ -38,7 +39,6 @@ class DataPredictionMachine:
         self.__print("All titles: ")
         self.__print(self.__getAllTitles())
         self.__pepare_titles()
-        self.__create_dummy_vars_from_title()
         self.__prepare_surnames()
         self.__prepare_firstnames()
         self.__prepare_brakets()
@@ -53,25 +53,88 @@ class DataPredictionMachine:
         self.__print("All ticket sequences:")
         self.__print(self.__getAllTicketNrs())
         self.__prepare_ticket_sequence()
-        self.__create_dummy_vars_from_sex()
-        self.__create_dummy_vars_from_pclass()
         self.__print("All embarked:")
         self.__print(self.__getAllPorts())
-        self.__create_dummy_vars_from_embarked()
 
     # describe the dataset as images and save them
     def create_describing_images(self):
         self.__create_output_dir()
-        file_path = "./output/" + self.run_id + "/missing-values-matrix.png"
-        msno.matrix(self.dataframe).figure.savefig(file_path)
+        if self.run_id and not os.path.exists("./output/plots"):
+            os.makedirs("./output/plots")
+        
+        self.__draw_single_plots()
+        
+        for var1 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
+            for var2 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
+                if(not(var1 == var2)):
+                    
+                    #sns.jointplot(var1, , data=self.dataframe, kind='reg');
+                    #g = sns.JointGrid(x=var1, y=var2, data=self.dataframe) 
+                    #g.plot_joint(sns.regplot, order=2) 
+                    #g.plot_marginals(sns.distplot)
+                    if(not((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) or (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64))):
+                        print("not numeric")
+                        print(self.dataframe[var1].dtypes)
+                        print(self.dataframe[var2].dtypes)
+                    else:
+                        file_path = "./output/plots" + "/swarmplot_" + var1 + "-" + var2 + ".png"
+                        #sns.swarmplot(x=var1, y=var2, hue="Survived", data=self.dataframe).savefig(file_path)
+                        #plt.show()
+                        #plt.clf()
+                    
+                    if((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) and (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64)):
+                        file_path = "./output/plots" + "/lmplot_" + var1 + "-" + var2 + ".png"
+                        sns.lmplot(x=var1, y=var2, data=self.dataframe, y_jitter=.03).savefig(file_path)
+                        plt.show()
+                        plt.clf()
+                        file_path = "./output/plots" + "/lmplot_marked_" + var1 + "-" + var2 + ".png"
+                        sns.lmplot(x=var1, y=var2, hue="Survived", data=self.dataframe, y_jitter=.03).savefig(file_path)
+                        plt.show()
+                        plt.clf()
+        file_path = "./output/plots" + "/pairGrid.png"
+        g = sns.PairGrid(self.dataframe, hue="Survived")
+        g.map_diag(plt.hist)
+        g.map_upper(sns.regplot)
+        g.map_lower(sns.violinplot)
+        g.add_legend()
+        g.savefig(file_path)
+        plt.show()
+        plt.clf()
+    
+    def __draw_single_plots(self):
+        for col in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize"]:
+            file_path = "./output/plots" + "/" + col + ".png"
+            sns.factorplot(col, data=self.dataframe, kind="count").savefig(file_path)
+            plt.show()
+            plt.clf()
+        for col in ["Age", "Fare", "FarePerPerson"]:
+            file_path = "./output/plots" + "/" + col + ".png"
+            fg = sns.FacetGrid(data=self.dataframe)
+            fg.map(sns.kdeplot, col, shade=True)
+            fg.savefig(file_path)
+            plt.show()
+            plt.clf()
+    
+    def create_dummy_vars(self):
+        self.__create_dummy_vars_from_title()
+        self.__create_dummy_vars_from_sex()
+        self.__create_dummy_vars_from_pclass()
+        self.__create_dummy_vars_from_embarked()
 
     # handle all missing values of the dataset
     def handle_missing_values(self):
         print("\n--------------------------------------Handle Missing Values------------------------------------------\n")
-        
-        print(self.dataframe.isnull().sum())
+        self.__create_output_dir()
+        file_path = "./output/" + "/pre-handling_missing-values-matrix.png"
+        msno.matrix(self.dataframe).figure.savefig(file_path)
+        plt.show()
+        plt.clf()
         self.__findAllMissingValueTypes()
-        print(self.dataframe.isnull().sum())
+        self.__create_output_dir()
+        file_path = "./output/" + "/post-handling_missing-values-matrix.png"
+        msno.matrix(self.dataframe).figure.savefig(file_path)
+        plt.show()
+        plt.clf()
 
         # TODO: DELETE! THIS IS JUST FOR MAKING THE MODEL WORK (DOES NOT WORK WITH STRING ATTRIBUTES CURRENTLY)
         #self.dataframe = self.dataframe.fillna(0)
@@ -352,10 +415,11 @@ class DataPredictionMachine:
             row = row + 1
     
     def __prepareFamilysize(self):
+        print("-------------------------------------------------------------")
         row = 0
         self.dataframe['Familysize'] = np.nan
         for parch,sibsp in zip(self.dataframe['Parch'], self.dataframe['SibSp']):
-            self.dataframe['Familysize'] = 1 + parch + sibsp
+            self.dataframe.loc[row, 'Familysize'] = 1 + parch + sibsp
             row = row + 1
         #self.dataframe['Familysize'] = self.dataframe['Parch', 'Sibsp'].map(lambda (parch,sibsp):self.__calcFamilysize(parch, sibsp))
     
