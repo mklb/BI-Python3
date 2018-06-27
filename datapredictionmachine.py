@@ -67,20 +67,15 @@ class DataPredictionMachine:
         for var1 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
             for var2 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
                 if(not(var1 == var2)):
-                    
-                    #sns.jointplot(var1, , data=self.dataframe, kind='reg');
-                    #g = sns.JointGrid(x=var1, y=var2, data=self.dataframe) 
-                    #g.plot_joint(sns.regplot, order=2) 
-                    #g.plot_marginals(sns.distplot)
                     if(not((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) or (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64))):
                         print("not numeric")
                         print(self.dataframe[var1].dtypes)
                         print(self.dataframe[var2].dtypes)
                     else:
                         file_path = "./output/plots" + "/swarmplot_" + var1 + "-" + var2 + ".png"
-                        #sns.swarmplot(x=var1, y=var2, hue="Survived", data=self.dataframe).savefig(file_path)
-                        #plt.show()
-                        #plt.clf()
+                        sns.swarmplot(x=var1, y=var2, hue="Survived", data=self.dataframe).figure.savefig(file_path)
+                        plt.show()
+                        plt.clf()
                     
                     if((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) and (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64)):
                         file_path = "./output/plots" + "/lmplot_" + var1 + "-" + var2 + ".png"
@@ -108,7 +103,7 @@ class DataPredictionMachine:
             plt.show()
             plt.clf()
         for col in ["Age", "Fare", "FarePerPerson"]:
-            file_path = "./output/plots" + "/" + col + ".png"
+            file_path = "./output/plots" + "/histograms_" + col + ".png"
             fg = sns.FacetGrid(data=self.dataframe)
             fg.map(sns.kdeplot, col, shade=True)
             fg.savefig(file_path)
