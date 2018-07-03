@@ -35,7 +35,7 @@ Highest score: ('tree-generator-10', 0.8754208754208754)
 
 # TODOS
 
-- [ ] Image generation for description 
+- [X] Image generation for description 
 - [ ] Intense commenting
 - [X] Missing values 
 - [x] Max tree depth

@@ -1,0 +1,606 @@
+digraph ID3_Tree {
+"0" [shape=box, style=filled, label="Male
+", weight=1]
+"1" [shape=box, style=filled, label="ThirdClass
+", weight=2]
+0 -> 1 [ label = "<=0.50"];
+"2" [shape=box, style=filled, label="FarePerPerson
+", weight=3]
+1 -> 2 [ label = "<=0.50"];
+"3" [shape=box, style=filled, label="Fare
+", weight=4]
+2 -> 3 [ label = "<=38.13"];
+"4" [shape=box, style=filled, label="Age
+", weight=5]
+3 -> 4 [ label = "<=135.77"];
+"5" [shape=box, style=filled, label="1
+(28)
+", weight=6]
+4 -> 5 [ label = "<=23.50"];
+"6" [shape=box, style=filled, label="Parch
+", weight=6]
+4 -> 6 [ label = ">23.50"];
+"7" [shape=box, style=filled, label="Familysize
+", weight=7]
+6 -> 7 [ label = "<=1.50"];
+"8" [shape=box, style=filled, label="PortC
+", weight=8]
+7 -> 8 [ label = "<=1.50"];
+"9" [shape=box, style=filled, label="PortS
+", weight=9]
+8 -> 9 [ label = "<=0.50"];
+"10" [shape=box, style=filled, label="1
+(2)
+", weight=10]
+9 -> 10 [ label = "<=0.50"];
+"11" [shape=box, style=filled, label="FirstClass
+", weight=10]
+9 -> 11 [ label = ">0.50"];
+"12" [shape=box, style=filled, label="1
+(21/3)
+", weight=11]
+11 -> 12 [ label = "<=0.50"];
+"13" [shape=box, style=filled, label="1
+(1)
+", weight=11]
+11 -> 13 [ label = ">0.50"];
+"14" [shape=box, style=filled, label="0
+(1/1)
+", weight=9]
+8 -> 14 [ label = ">0.50"];
+"15" [shape=box, style=filled, label="FirstClass
+", weight=8]
+7 -> 15 [ label = ">1.50"];
+"16" [shape=box, style=filled, label="SibSp
+", weight=9]
+15 -> 16 [ label = "<=0.50"];
+"17" [shape=box, style=filled, label="1
+(3)
+", weight=10]
+16 -> 17 [ label = "<=0.50"];
+"18" [shape=box, style=filled, label="1
+(12/2)
+", weight=10]
+16 -> 18 [ label = ">0.50"];
+"19" [shape=box, style=filled, label="1
+(14)
+", weight=9]
+15 -> 19 [ label = ">0.50"];
+"20" [shape=box, style=filled, label="1
+(9)
+", weight=7]
+6 -> 20 [ label = ">1.50"];
+"21" [shape=box, style=filled, label="0
+(2)
+", weight=5]
+3 -> 21 [ label = ">135.77"];
+"22" [shape=box, style=filled, label="1
+(52)
+", weight=4]
+2 -> 22 [ label = ">38.13"];
+"23" [shape=box, style=filled, label="Familysize
+", weight=3]
+1 -> 23 [ label = ">0.50"];
+"24" [shape=box, style=filled, label="Age
+", weight=4]
+23 -> 24 [ label = "<=4.50"];
+"25" [shape=box, style=filled, label="FarePerPerson
+", weight=5]
+24 -> 25 [ label = "<=36.50"];
+"26" [shape=box, style=filled, label="Fare
+", weight=6]
+25 -> 26 [ label = "<=8.04"];
+"27" [shape=box, style=filled, label="SibSp
+", weight=7]
+26 -> 27 [ label = "<=18.63"];
+"28" [shape=box, style=filled, label="Parch
+", weight=8]
+27 -> 28 [ label = "<=0.50"];
+"29" [shape=box, style=filled, label="PortC
+", weight=9]
+28 -> 29 [ label = "<=0.50"];
+"30" [shape=box, style=filled, label="PortS
+", weight=10]
+29 -> 30 [ label = "<=0.50"];
+"31" [shape=box, style=filled, label="1
+(19/5)
+", weight=11]
+30 -> 31 [ label = "<=0.50"];
+"32" [shape=box, style=filled, label="1
+(9/5)
+", weight=11]
+30 -> 32 [ label = ">0.50"];
+"33" [shape=box, style=filled, label="1
+(3)
+", weight=10]
+29 -> 33 [ label = ">0.50"];
+"34" [shape=box, style=filled, label="PortQ
+", weight=9]
+28 -> 34 [ label = ">0.50"];
+"35" [shape=box, style=filled, label="PortS
+", weight=10]
+34 -> 35 [ label = "<=0.50"];
+"36" [shape=box, style=filled, label="1
+(3/2)
+", weight=11]
+35 -> 36 [ label = "<=0.50"];
+"37" [shape=box, style=filled, label="1
+(3/1)
+", weight=11]
+35 -> 37 [ label = ">0.50"];
+"38" [shape=box, style=filled, label="0
+(1)
+", weight=10]
+34 -> 38 [ label = ">0.50"];
+"39" [shape=box, style=filled, label="PortQ
+", weight=8]
+27 -> 39 [ label = ">0.50"];
+"40" [shape=box, style=filled, label="PortS
+", weight=9]
+39 -> 40 [ label = "<=0.50"];
+"41" [shape=box, style=filled, label="0
+(3/1)
+", weight=10]
+40 -> 41 [ label = "<=0.50"];
+"42" [shape=box, style=filled, label="Parch
+", weight=10]
+40 -> 42 [ label = ">0.50"];
+"43" [shape=box, style=filled, label="0
+(4/3)
+", weight=11]
+42 -> 43 [ label = "<=0.50"];
+"44" [shape=box, style=filled, label="0
+(2/2)
+", weight=11]
+42 -> 44 [ label = ">0.50"];
+"45" [shape=box, style=filled, label="Parch
+", weight=9]
+39 -> 45 [ label = ">0.50"];
+"46" [shape=box, style=filled, label="1
+(3)
+", weight=10]
+45 -> 46 [ label = "<=0.50"];
+"47" [shape=box, style=filled, label="0
+(1)
+", weight=10]
+45 -> 47 [ label = ">0.50"];
+"48" [shape=box, style=filled, label="1
+(9)
+", weight=7]
+26 -> 48 [ label = ">18.63"];
+"49" [shape=box, style=filled, label="Fare
+", weight=6]
+25 -> 49 [ label = ">8.04"];
+"50" [shape=box, style=filled, label="0
+(7)
+", weight=7]
+49 -> 50 [ label = "<=9.84"];
+"51" [shape=box, style=filled, label="Parch
+", weight=7]
+49 -> 51 [ label = ">9.84"];
+"52" [shape=box, style=filled, label="PortC
+", weight=8]
+51 -> 52 [ label = "<=1.00"];
+"53" [shape=box, style=filled, label="SibSp
+", weight=9]
+52 -> 53 [ label = "<=0.50"];
+"54" [shape=box, style=filled, label="1
+(3)
+", weight=10]
+53 -> 54 [ label = "<=0.50"];
+"55" [shape=box, style=filled, label="PortS
+", weight=10]
+53 -> 55 [ label = ">0.50"];
+"56" [shape=box, style=filled, label="1
+(1)
+", weight=11]
+55 -> 56 [ label = "<=0.50"];
+"57" [shape=box, style=filled, label="0
+(3/3)
+", weight=11]
+55 -> 57 [ label = ">0.50"];
+"58" [shape=box, style=filled, label="0
+(1)
+", weight=9]
+52 -> 58 [ label = ">0.50"];
+"59" [shape=box, style=filled, label="0
+(1)
+", weight=8]
+51 -> 59 [ label = ">1.00"];
+"60" [shape=box, style=filled, label="FarePerPerson
+", weight=5]
+24 -> 60 [ label = ">36.50"];
+"61" [shape=box, style=filled, label="0
+(5)
+", weight=6]
+60 -> 61 [ label = "<=8.67"];
+"62" [shape=box, style=filled, label="0
+(1/1)
+", weight=6]
+60 -> 62 [ label = ">8.67"];
+"63" [shape=box, style=filled, label="FarePerPerson
+", weight=4]
+23 -> 63 [ label = ">4.50"];
+"64" [shape=box, style=filled, label="Fare
+", weight=5]
+63 -> 64 [ label = "<=4.57"];
+"65" [shape=box, style=filled, label="Age
+", weight=6]
+64 -> 65 [ label = "<=31.33"];
+"66" [shape=box, style=filled, label="0
+(5)
+", weight=7]
+65 -> 66 [ label = "<=14.00"];
+"67" [shape=box, style=filled, label="SibSp
+", weight=7]
+65 -> 67 [ label = ">14.00"];
+"68" [shape=box, style=filled, label="0
+(2)
+", weight=8]
+67 -> 68 [ label = "<=2.50"];
+"69" [shape=box, style=filled, label="1
+(1)
+", weight=8]
+67 -> 69 [ label = ">2.50"];
+"70" [shape=box, style=filled, label="1
+(2)
+", weight=6]
+64 -> 70 [ label = ">31.33"];
+"71" [shape=box, style=filled, label="0
+(13)
+", weight=5]
+63 -> 71 [ label = ">4.57"];
+"72" [shape=box, style=filled, label="FarePerPerson
+", weight=2]
+0 -> 72 [ label = ">0.50"];
+"73" [shape=box, style=filled, label="Child
+", weight=3]
+72 -> 73 [ label = "<=26.14"];
+"74" [shape=box, style=filled, label="Familysize
+", weight=4]
+73 -> 74 [ label = "<=0.50"];
+"75" [shape=box, style=filled, label="Fare
+", weight=5]
+74 -> 75 [ label = "<=3.50"];
+"76" [shape=box, style=filled, label="Age
+", weight=6]
+75 -> 76 [ label = "<=7.76"];
+"77" [shape=box, style=filled, label="SibSp
+", weight=7]
+76 -> 77 [ label = "<=29.42"];
+"78" [shape=box, style=filled, label="PortS
+", weight=8]
+77 -> 78 [ label = "<=0.50"];
+"79" [shape=box, style=filled, label="PortC
+", weight=9]
+78 -> 79 [ label = "<=0.50"];
+"80" [shape=box, style=filled, label="0
+(3/1)
+", weight=10]
+79 -> 80 [ label = "<=0.50"];
+"81" [shape=box, style=filled, label="0
+(5/2)
+", weight=10]
+79 -> 81 [ label = ">0.50"];
+"82" [shape=box, style=filled, label="0
+(16/2)
+", weight=9]
+78 -> 82 [ label = ">0.50"];
+"83" [shape=box, style=filled, label="0
+(6)
+", weight=8]
+77 -> 83 [ label = ">0.50"];
+"84" [shape=box, style=filled, label="PortC
+", weight=7]
+76 -> 84 [ label = ">29.42"];
+"85" [shape=box, style=filled, label="0
+(49)
+", weight=8]
+84 -> 85 [ label = "<=0.50"];
+"86" [shape=box, style=filled, label="0
+(11/1)
+", weight=8]
+84 -> 86 [ label = ">0.50"];
+"87" [shape=box, style=filled, label="Age
+", weight=6]
+75 -> 87 [ label = ">7.76"];
+"88" [shape=box, style=filled, label="PortC
+", weight=7]
+87 -> 88 [ label = "<=30.50"];
+"89" [shape=box, style=filled, label="Parch
+", weight=8]
+88 -> 89 [ label = "<=0.50"];
+"90" [shape=box, style=filled, label="SibSp
+", weight=9]
+89 -> 90 [ label = "<=0.50"];
+"91" [shape=box, style=filled, label="PortS
+", weight=10]
+90 -> 91 [ label = "<=0.50"];
+"92" [shape=box, style=filled, label="0
+(4)
+", weight=11]
+91 -> 92 [ label = "<=0.50"];
+"93" [shape=box, style=filled, label="FirstClass
+", weight=11]
+91 -> 93 [ label = ">0.50"];
+"94" [shape=box, style=filled, label="SecondClass
+", weight=12]
+93 -> 94 [ label = "<=0.50"];
+"95" [shape=box, style=filled, label="0
+(91/9)
+", weight=13]
+94 -> 95 [ label = "<=0.50"];
+"96" [shape=box, style=filled, label="0
+(24/2)
+", weight=13]
+94 -> 96 [ label = ">0.50"];
+"97" [shape=box, style=filled, label="0
+(2)
+", weight=12]
+93 -> 97 [ label = ">0.50"];
+"98" [shape=box, style=filled, label="SecondClass
+", weight=10]
+90 -> 98 [ label = ">0.50"];
+"99" [shape=box, style=filled, label="PortS
+", weight=11]
+98 -> 99 [ label = "<=0.50"];
+"100" [shape=box, style=filled, label="0
+(3/1)
+", weight=12]
+99 -> 100 [ label = "<=0.50"];
+"101" [shape=box, style=filled, label="0
+(13/2)
+", weight=12]
+99 -> 101 [ label = ">0.50"];
+"102" [shape=box, style=filled, label="0
+(4)
+", weight=11]
+98 -> 102 [ label = ">0.50"];
+"103" [shape=box, style=filled, label="0
+(4)
+", weight=9]
+89 -> 103 [ label = ">0.50"];
+"104" [shape=box, style=filled, label="Parch
+", weight=8]
+88 -> 104 [ label = ">0.50"];
+"105" [shape=box, style=filled, label="SibSp
+", weight=9]
+104 -> 105 [ label = "<=0.50"];
+"106" [shape=box, style=filled, label="SecondClass
+", weight=10]
+105 -> 106 [ label = "<=0.50"];
+"107" [shape=box, style=filled, label="0
+(5/2)
+", weight=11]
+106 -> 107 [ label = "<=0.50"];
+"108" [shape=box, style=filled, label="0
+(2/1)
+", weight=11]
+106 -> 108 [ label = ">0.50"];
+"109" [shape=box, style=filled, label="0
+(5)
+", weight=10]
+105 -> 109 [ label = ">0.50"];
+"110" [shape=box, style=filled, label="1
+(1)
+", weight=9]
+104 -> 110 [ label = ">0.50"];
+"111" [shape=box, style=filled, label="PortS
+", weight=7]
+87 -> 111 [ label = ">30.50"];
+"112" [shape=box, style=filled, label="0
+(7)
+", weight=8]
+111 -> 112 [ label = "<=0.50"];
+"113" [shape=box, style=filled, label="Parch
+", weight=8]
+111 -> 113 [ label = ">0.50"];
+"114" [shape=box, style=filled, label="SibSp
+", weight=9]
+113 -> 114 [ label = "<=0.50"];
+"115" [shape=box, style=filled, label="SecondClass
+", weight=10]
+114 -> 115 [ label = "<=1.50"];
+"116" [shape=box, style=filled, label="FirstClass
+", weight=11]
+115 -> 116 [ label = "<=0.50"];
+"117" [shape=box, style=filled, label="0
+(26/7)
+", weight=12]
+116 -> 117 [ label = "<=0.50"];
+"118" [shape=box, style=filled, label="0
+(4/1)
+", weight=12]
+116 -> 118 [ label = ">0.50"];
+"119" [shape=box, style=filled, label="0
+(28/5)
+", weight=11]
+115 -> 119 [ label = ">0.50"];
+"120" [shape=box, style=filled, label="0
+(2)
+", weight=10]
+114 -> 120 [ label = ">1.50"];
+"121" [shape=box, style=filled, label="FirstClass
+", weight=9]
+113 -> 121 [ label = ">0.50"];
+"122" [shape=box, style=filled, label="0
+(10)
+", weight=10]
+121 -> 122 [ label = "<=0.50"];
+"123" [shape=box, style=filled, label="0
+(1/1)
+", weight=10]
+121 -> 123 [ label = ">0.50"];
+"124" [shape=box, style=filled, label="0
+(13)
+", weight=5]
+74 -> 124 [ label = ">3.50"];
+"125" [shape=box, style=filled, label="SibSp
+", weight=4]
+73 -> 125 [ label = ">0.50"];
+"126" [shape=box, style=filled, label="1
+(15)
+", weight=5]
+125 -> 126 [ label = "<=2.50"];
+"127" [shape=box, style=filled, label="Age
+", weight=5]
+125 -> 127 [ label = ">2.50"];
+"128" [shape=box, style=filled, label="Parch
+", weight=6]
+127 -> 128 [ label = "<=3.50"];
+"129" [shape=box, style=filled, label="0
+(3)
+", weight=7]
+128 -> 129 [ label = "<=1.50"];
+"130" [shape=box, style=filled, label="Fare
+", weight=7]
+128 -> 130 [ label = ">1.50"];
+"131" [shape=box, style=filled, label="1
+(1)
+", weight=8]
+130 -> 131 [ label = "<=39.14"];
+"132" [shape=box, style=filled, label="0
+(1)
+", weight=8]
+130 -> 132 [ label = ">39.14"];
+"133" [shape=box, style=filled, label="0
+(10)
+", weight=6]
+127 -> 133 [ label = ">3.50"];
+"134" [shape=box, style=filled, label="Age
+", weight=3]
+72 -> 134 [ label = ">26.14"];
+"135" [shape=box, style=filled, label="Fare
+", weight=4]
+134 -> 135 [ label = "<=43.00"];
+"136" [shape=box, style=filled, label="PortS
+", weight=5]
+135 -> 136 [ label = "<=27.14"];
+"137" [shape=box, style=filled, label="1
+(1)
+", weight=6]
+136 -> 137 [ label = "<=0.50"];
+"138" [shape=box, style=filled, label="1
+(7/1)
+", weight=6]
+136 -> 138 [ label = ">0.50"];
+"139" [shape=box, style=filled, label="Child
+", weight=5]
+135 -> 139 [ label = ">27.14"];
+"140" [shape=box, style=filled, label="ThirdClass
+", weight=6]
+139 -> 140 [ label = "<=0.50"];
+"141" [shape=box, style=filled, label="FirstClass
+", weight=7]
+140 -> 141 [ label = "<=0.50"];
+"142" [shape=box, style=filled, label="0
+(2)
+", weight=8]
+141 -> 142 [ label = "<=0.50"];
+"143" [shape=box, style=filled, label="SibSp
+", weight=8]
+141 -> 143 [ label = ">0.50"];
+"144" [shape=box, style=filled, label="Familysize
+", weight=9]
+143 -> 144 [ label = "<=2.00"];
+"145" [shape=box, style=filled, label="Parch
+", weight=10]
+144 -> 145 [ label = "<=3.50"];
+"146" [shape=box, style=filled, label="PortS
+", weight=11]
+145 -> 146 [ label = "<=1.50"];
+"147" [shape=box, style=filled, label="0
+(12/8)
+", weight=12]
+146 -> 147 [ label = "<=0.50"];
+"148" [shape=box, style=filled, label="0
+(14/9)
+", weight=12]
+146 -> 148 [ label = ">0.50"];
+"149" [shape=box, style=filled, label="0
+(1/1)
+", weight=11]
+145 -> 149 [ label = ">1.50"];
+"150" [shape=box, style=filled, label="1
+(1)
+", weight=10]
+144 -> 150 [ label = ">3.50"];
+"151" [shape=box, style=filled, label="0
+(1)
+", weight=9]
+143 -> 151 [ label = ">2.00"];
+"152" [shape=box, style=filled, label="1
+(4/1)
+", weight=7]
+140 -> 152 [ label = ">0.50"];
+"153" [shape=box, style=filled, label="1
+(2)
+", weight=6]
+139 -> 153 [ label = ">0.50"];
+"154" [shape=box, style=filled, label="SibSp
+", weight=4]
+134 -> 154 [ label = ">43.00"];
+"155" [shape=box, style=filled, label="Fare
+", weight=5]
+154 -> 155 [ label = "<=0.50"];
+"156" [shape=box, style=filled, label="PortS
+", weight=6]
+155 -> 156 [ label = "<=37.00"];
+"157" [shape=box, style=filled, label="0
+(3/1)
+", weight=7]
+156 -> 157 [ label = "<=0.50"];
+"158" [shape=box, style=filled, label="0
+(12/4)
+", weight=7]
+156 -> 158 [ label = ">0.50"];
+"159" [shape=box, style=filled, label="0
+(9)
+", weight=6]
+155 -> 159 [ label = ">37.00"];
+"160" [shape=box, style=filled, label="PortC
+", weight=5]
+154 -> 160 [ label = ">0.50"];
+"161" [shape=box, style=filled, label="Fare
+", weight=6]
+160 -> 161 [ label = "<=0.50"];
+"162" [shape=box, style=filled, label="0
+(5)
+", weight=7]
+161 -> 162 [ label = "<=111.82"];
+"163" [shape=box, style=filled, label="Parch
+", weight=7]
+161 -> 163 [ label = ">111.82"];
+"164" [shape=box, style=filled, label="1
+(1)
+", weight=8]
+163 -> 164 [ label = "<=2.00"];
+"165" [shape=box, style=filled, label="0
+(1)
+", weight=8]
+163 -> 165 [ label = ">2.00"];
+"166" [shape=box, style=filled, label="Fare
+", weight=6]
+160 -> 166 [ label = ">0.50"];
+"167" [shape=box, style=filled, label="1
+(4)
+", weight=7]
+166 -> 167 [ label = "<=97.76"];
+"168" [shape=box, style=filled, label="0
+(2)
+", weight=7]
+166 -> 168 [ label = ">97.76"];
+{rank=same; 0;};
+{rank=same; 10;11;17;18;30;33;35;38;41;42;46;47;54;55;80;81;91;98;106;109;115;120;122;123;145;150;};
+{rank=same; 12;13;31;32;36;37;43;44;56;57;92;93;99;102;107;108;116;119;146;149;};
+{rank=same; 94;97;100;101;117;118;147;148;};
+{rank=same; 95;96;};
+{rank=same; 1;72;};
+{rank=same; 2;23;73;134;};
+{rank=same; 3;22;24;63;74;125;135;154;};
+{rank=same; 4;21;25;60;64;71;75;124;126;127;136;139;155;160;};
+{rank=same; 5;6;26;49;61;62;65;70;76;87;128;133;137;138;140;153;156;159;161;166;};
+{rank=same; 7;20;27;48;50;51;66;67;77;84;88;111;129;130;141;152;157;158;162;163;167;168;};
+{rank=same; 8;15;28;39;52;59;68;69;78;83;85;86;89;104;112;113;131;132;142;143;164;165;};
+{rank=same; 9;14;16;19;29;34;40;45;53;58;79;82;90;103;105;110;114;121;144;151;};
+}
