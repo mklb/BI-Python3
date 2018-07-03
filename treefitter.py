@@ -6,11 +6,11 @@ test_data_1_frame = pd.read_csv('./data/party/1.csv')
 test_data_2_frame = pd.read_csv('./data/party/2.csv')
 test_data_3_frame = pd.read_csv('./data/party/3.csv')
 
-train_data_12_frame = pd.read_csv('./data/party/12.csv')
-train_data_13_frame = pd.read_csv('./data/party/13.csv')
-train_data_23_frame = pd.read_csv('./data/party/23.csv')
+train_data_12_frame = pd.read_csv('./data/party/1u2.csv')
+train_data_13_frame = pd.read_csv('./data/party/1u3.csv')
+train_data_23_frame = pd.read_csv('./data/party/2u3.csv')
 
-trainer = DataPredictionMachine("overfitting-", train_data_12_frame, False)
+trainer = DataPredictionMachine("overfitting-1", train_data_12_frame, False)
 trainer.describe()
 trainer.prepare()
 trainer.handle_missing_values()
@@ -24,13 +24,13 @@ trainer.generate_tree(None) # no max depth
 # -----------------------------------------------------
 
 
-tester = DataPredictionMachine("overfitting-", test_data_3_frame, False)
+tester = DataPredictionMachine("overfitting-1", test_data_3_frame, False)
 tester.prepare()
 tester.handle_missing_values()
 tester.create_dummy_vars()
 tester.clean()
-score = trainer.calc_score(tester.get_dataframe())
-print("Model score (train data):", score)
+score1 = trainer.calc_score(tester.get_dataframe())
+
 
 
 
@@ -39,7 +39,7 @@ print("Model score (train data):", score)
 
 #-------------------------------------------------------
 
-trainer = DataPredictionMachine("overfitting-", train_data_13_frame, False)
+trainer = DataPredictionMachine("overfitting-2", train_data_13_frame, False)
 trainer.describe()
 trainer.prepare()
 trainer.handle_missing_values()
@@ -53,13 +53,12 @@ trainer.generate_tree(None) # no max depth
 # -----------------------------------------------------
 
 
-tester = DataPredictionMachine("overfitting-", test_data_2_frame, False)
+tester = DataPredictionMachine("overfitting-2", test_data_2_frame, False)
 tester.prepare()
 tester.handle_missing_values()
 tester.create_dummy_vars()
 tester.clean()
-score = trainer.calc_score(tester.get_dataframe())
-print("Model score (train data):", score)
+score2 = trainer.calc_score(tester.get_dataframe())
 
 
 
@@ -68,7 +67,7 @@ print("Model score (train data):", score)
 
 #-------------------------------------------------------
 
-trainer = DataPredictionMachine("overfitting-", train_data_23_frame, False)
+trainer = DataPredictionMachine("overfitting-3", train_data_23_frame, False)
 trainer.describe()
 trainer.prepare()
 trainer.handle_missing_values()
@@ -82,13 +81,19 @@ trainer.generate_tree(None) # no max depth
 # -----------------------------------------------------
 
 
-tester = DataPredictionMachine("overfitting-", test_data_1_frame, False)
+tester = DataPredictionMachine("overfitting-3", test_data_1_frame, False)
 tester.prepare()
 tester.handle_missing_values()
 tester.create_dummy_vars()
 tester.clean()
-score = trainer.calc_score(tester.get_dataframe())
-print("Model score (train data):", score)
+score3 = trainer.calc_score(tester.get_dataframe())
+
+
+
+
+
+
+print("Model scores:\n Model 1: "+str(score1)+"\n Model 2: "+str(score2)+"\n Model 3: "+str(score3))
 
 
 
