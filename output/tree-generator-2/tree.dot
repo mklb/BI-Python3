@@ -12,17 +12,17 @@ digraph ID3_Tree {
 (72/72)
 ", weight=3]
 1 -> 3 [ label = ">0.50"];
-"4" [shape=box, style=filled, label="Child
+"4" [shape=box, style=filled, label="FarePerPerson
 ", weight=2]
 0 -> 4 [ label = ">0.50"];
 "5" [shape=box, style=filled, label="0
-(451/86)
+(401/61)
 ", weight=3]
-4 -> 5 [ label = "<=0.50"];
-"6" [shape=box, style=filled, label="1
-(23/17)
+4 -> 5 [ label = "<=26.14"];
+"6" [shape=box, style=filled, label="0
+(67/48)
 ", weight=3]
-4 -> 6 [ label = ">0.50"];
+4 -> 6 [ label = ">26.14"];
 {rank=same; 0;};
 {rank=same; 1;4;};
 {rank=same; 2;3;5;6;};

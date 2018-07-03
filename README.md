@@ -28,9 +28,9 @@ treegenerator.py sample output. "tree-generator-X" indicating the tree max depth
 ```
 All scores:
 
-{'tree-generator-1': 0.7867564534231201, 'tree-generator-2': 0.7934904601571269, 'tree-generator-3': 0.835016835016835, 'tree-generator-4': 0.8406285072951739, 'tree-generator-5': 0.8451178451178452, 'tree-generator-6': 0.8484848484848485, 'tree-generator-7': 0.8496071829405163, 'tree-generator-8': 0.8540965207631874, 'tree-generator-9': 0.8552188552188552, 'tree-generator-10': 0.8552188552188552, 'tree-generator-11': 0.8552188552188552}
+{'tree-generator-1': 0.7867564534231201, 'tree-generator-2': 0.7867564534231201, 'tree-generator-3': 0.813692480359147, 'tree-generator-4': 0.8507295173961841, 'tree-generator-5': 0.8597081930415263, 'tree-generator-6': 0.8664421997755332, 'tree-generator-7': 0.8686868686868687, 'tree-generator-8': 0.8698092031425365, 'tree-generator-9': 0.8709315375982043, 'tree-generator-10': 0.8754208754208754, 'tree-generator-11': 0.8754208754208754}
 
-Highest score: ('tree-generator-9', 0.8552188552188552)
+Highest score: ('tree-generator-10', 0.8754208754208754)
 ```
 
 # TODOS

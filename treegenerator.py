@@ -18,6 +18,7 @@ for i in range(min_depth,max_depth+1):
   trainer.prepare()
   # trainer.create_describing_images()
   trainer.handle_missing_values()
+  trainer.create_dummy_vars()
   trainer.clean()
   # trainer.preview()
   trainer.generate_tree(i)
