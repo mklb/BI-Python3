@@ -90,10 +90,4 @@ score3 = trainer.calc_score(tester.get_dataframe())
 
 
 
-
-
-
 print("Model scores:\n Model 1: "+str(score1)+"\n Model 2: "+str(score2)+"\n Model 3: "+str(score3))
-
-
-

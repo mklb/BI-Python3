@@ -13,7 +13,7 @@ trainer.handle_missing_values()
 trainer.create_dummy_vars()
 trainer.clean()
 trainer.preview()
-trainer.generate_tree(None) # no max depth
+trainer.generate_tree(8) # no max depth
 
 # -----------------------------------------------------
 # CALC SCORE WITH THE TRAINED SET

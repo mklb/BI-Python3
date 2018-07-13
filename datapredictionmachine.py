@@ -32,6 +32,7 @@ class DataPredictionMachine:
         self.__print("\n")
         self.__print("Data description:\n")
         self.__print(self.dataframe.describe())
+        self.__visualizeMissings()
 
     # transform the data
     def prepare(self):
@@ -116,6 +117,13 @@ class DataPredictionMachine:
         self.__create_dummy_vars_from_pclass()
         self.__create_dummy_vars_from_embarked()
 
+    def __visualizeMissings(self):
+        self.__create_output_dir()
+        file_path = "./output/" + "/dataset_missing-values-matrix.png"
+        msno.matrix(self.dataframe).figure.savefig(file_path)
+        plt.show()
+        plt.clf()
+    
     # handle all missing values of the dataset
     def handle_missing_values(self):
         print("\n--------------------------------------Handle Missing Values------------------------------------------\n")
@@ -189,7 +197,7 @@ class DataPredictionMachine:
     # print a short preview of the dataset
     def preview(self):
         self.__print("\n--------------------------------------DATASET PREVIEW------------------------------------------\n")
-        self.__print(self.dataframe)
+        self.__print(self.dataframe.head())
         # TODO: add image generation
 
     # generate a ID3 tree
