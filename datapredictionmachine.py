@@ -75,18 +75,18 @@ class DataPredictionMachine:
                     else:
                         file_path = "./output/plots" + "/swarmplot_" + var1 + "-" + var2 + ".png"
                         sns.swarmplot(x=var1, y=var2, hue="Survived", data=self.dataframe).figure.savefig(file_path)
-                        plt.show()
-                        plt.clf()
+                        #plt.show()
+                        #plt.clf()
                     
                     if((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) and (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64)):
                         file_path = "./output/plots" + "/lmplot_" + var1 + "-" + var2 + ".png"
                         sns.lmplot(x=var1, y=var2, data=self.dataframe, y_jitter=.03).savefig(file_path)
-                        plt.show()
-                        plt.clf()
+                        #plt.show()
+                        #plt.clf()
                         file_path = "./output/plots" + "/lmplot_marked_" + var1 + "-" + var2 + ".png"
                         sns.lmplot(x=var1, y=var2, hue="Survived", data=self.dataframe, y_jitter=.03).savefig(file_path)
-                        plt.show()
-                        plt.clf()
+                        #plt.show()
+                        #plt.clf()
         file_path = "./output/plots" + "/pairGrid.png"
         g = sns.PairGrid(self.dataframe, hue="Survived")
         g.map_diag(plt.hist)
@@ -94,22 +94,22 @@ class DataPredictionMachine:
         g.map_lower(sns.violinplot)
         g.add_legend()
         g.savefig(file_path)
-        plt.show()
-        plt.clf()
+        #plt.show()
+        #plt.clf()
     
     def __draw_single_plots(self):
         for col in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize"]:
             file_path = "./output/plots" + "/" + col + ".png"
             sns.factorplot(col, data=self.dataframe, kind="count").savefig(file_path)
-            plt.show()
-            plt.clf()
+            #plt.show()
+            #plt.clf()
         for col in ["Age", "Fare", "FarePerPerson"]:
             file_path = "./output/plots" + "/histograms_" + col + ".png"
             fg = sns.FacetGrid(data=self.dataframe)
             fg.map(sns.kdeplot, col, shade=True)
             fg.savefig(file_path)
-            plt.show()
-            plt.clf()
+            #plt.show()
+            #plt.clf()
     
     def create_dummy_vars(self):
         self.__create_dummy_vars_from_title()
@@ -121,8 +121,8 @@ class DataPredictionMachine:
         self.__create_output_dir()
         file_path = "./output/" + "/dataset_missing-values-matrix.png"
         msno.matrix(self.dataframe).figure.savefig(file_path)
-        plt.show()
-        plt.clf()
+        #plt.show()
+        #plt.clf()
     
     # handle all missing values of the dataset
     def handle_missing_values(self):
@@ -130,14 +130,14 @@ class DataPredictionMachine:
         self.__create_output_dir()
         file_path = "./output/" + "/pre-handling_missing-values-matrix.png"
         msno.matrix(self.dataframe).figure.savefig(file_path)
-        plt.show()
-        plt.clf()
+        #plt.show()
+        #plt.clf()
         self.__findAllMissingValueTypes()
         self.__create_output_dir()
         file_path = "./output/" + "/post-handling_missing-values-matrix.png"
         msno.matrix(self.dataframe).figure.savefig(file_path)
-        plt.show()
-        plt.clf()
+        #plt.show()
+        #plt.clf()
 
         # TODO: DELETE! THIS IS JUST FOR MAKING THE MODEL WORK (DOES NOT WORK WITH STRING ATTRIBUTES CURRENTLY)
         #self.dataframe = self.dataframe.fillna(0)
