@@ -32,6 +32,7 @@ class DataPredictionMachine:
         self.__print("\n")
         self.__print("Data description:\n")
         self.__print(self.dataframe.describe())
+        self.__visualizeMissings()
 
     # transform the data
     def prepare(self):
@@ -116,6 +117,13 @@ class DataPredictionMachine:
         self.__create_dummy_vars_from_pclass()
         self.__create_dummy_vars_from_embarked()
 
+    def __visualizeMissings(self):
+        self.__create_output_dir()
+        file_path = "./output/" + "/dataset_missing-values-matrix.png"
+        msno.matrix(self.dataframe).figure.savefig(file_path)
+        plt.show()
+        plt.clf()
+    
     # handle all missing values of the dataset
     def handle_missing_values(self):
         print("\n--------------------------------------Handle Missing Values------------------------------------------\n")
@@ -189,7 +197,7 @@ class DataPredictionMachine:
     # print a short preview of the dataset
     def preview(self):
         self.__print("\n--------------------------------------DATASET PREVIEW------------------------------------------\n")
-        self.__print(self.dataframe)
+        self.__print(self.dataframe.head())
         # TODO: add image generation
 
     # generate a ID3 tree
@@ -267,7 +275,7 @@ class DataPredictionMachine:
                 titles[title] += 1
             else:
                 titles[title] = 1
-                return titles
+        return titles
 
     # categorize the title
     def __extractTitle(self, name):
@@ -348,7 +356,7 @@ class DataPredictionMachine:
                 decks[deck] += 1
             else:
                 decks[deck] = 1
-                return decks
+        return decks
 
     def __create_dummy_vars_from_decks(self):
         self.__print("create_dummy_vars_from_decks():  Deck -> DeckA / DeckB / DeckC / DeckD / DeckE / DeckF / DeckG / DeckT \n")
@@ -455,7 +463,7 @@ class DataPredictionMachine:
                 ticketnrs[preSequence] += 1
             else:
                 ticketnrs[preSequence] = 1
-                return ticketnrs
+        return ticketnrs
 
     # extract tichet nr
     def __extractTicketNr(self, ticketnr):
@@ -501,7 +509,7 @@ class DataPredictionMachine:
                 ports[port] += 1
             else:
                 ports[port] = 1
-                return ports
+        return ports
 
     def __create_dummy_vars_from_embarked(self):
         self.__print("create_dummy_vars_from_embarked():  Embarked -> PortS / PortC / PortQ \n")
