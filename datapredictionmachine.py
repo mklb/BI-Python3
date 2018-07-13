@@ -267,7 +267,7 @@ class DataPredictionMachine:
                 titles[title] += 1
             else:
                 titles[title] = 1
-                return titles
+        return titles
 
     # categorize the title
     def __extractTitle(self, name):
@@ -348,7 +348,7 @@ class DataPredictionMachine:
                 decks[deck] += 1
             else:
                 decks[deck] = 1
-                return decks
+        return decks
 
     def __create_dummy_vars_from_decks(self):
         self.__print("create_dummy_vars_from_decks():  Deck -> DeckA / DeckB / DeckC / DeckD / DeckE / DeckF / DeckG / DeckT \n")
@@ -455,7 +455,7 @@ class DataPredictionMachine:
                 ticketnrs[preSequence] += 1
             else:
                 ticketnrs[preSequence] = 1
-                return ticketnrs
+        return ticketnrs
 
     # extract tichet nr
     def __extractTicketNr(self, ticketnr):
@@ -501,7 +501,7 @@ class DataPredictionMachine:
                 ports[port] += 1
             else:
                 ports[port] = 1
-                return ports
+        return ports
 
     def __create_dummy_vars_from_embarked(self):
         self.__print("create_dummy_vars_from_embarked():  Embarked -> PortS / PortC / PortQ \n")
