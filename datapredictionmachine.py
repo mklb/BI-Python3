@@ -57,6 +57,51 @@ class DataPredictionMachine:
         self.__print("All embarked:")
         self.__print(self.__getAllPorts())
 
+    def evaluate(self, other_dataframe):
+        self.__print("\n--------------------------------------Evaluation------------------------------------------\n")
+        actual_survival_array = other_dataframe['Survived'].values
+        predictet_survival_array = self.predict(other_dataframe.iloc[:, 1:])
+        from sklearn.metrics import confusion_matrix
+        confus_matrix = confusion_matrix(actual_survival_array,predictet_survival_array)
+        r1 = confus_matrix [0]
+        r2 = confus_matrix [1]
+        
+        tp = r1[0]
+        fp = r1[1]
+        fn = r2[0]
+        tn = r2[1]
+        
+        cp = tp+fn
+        cn = fp+tn
+        pcp = tp + fp
+        pcn = fn + tn
+        
+        
+        true_positive_rate = tp / (cp)
+        false_negative_rate = fn / (cp)
+        true_negative_rate = tn / (cn)
+        false_positive_rate = fp / (cn)
+        
+        positive_prediction_value  = tp / (pcp)
+        false_omission_rate  = fn / (pcn)
+        false_discovery_rate  = fp / (pcp)
+        negative_prediction_value  = tn / (pcn)
+        
+        f_measure = 2 * ((positive_prediction_value*true_positive_rate)/(positive_prediction_value+true_positive_rate))
+        accuracy = (tp + tn)/(cp + cn)
+        
+        
+        self.__print("true_positive_rate: "+str(true_positive_rate))
+        self.__print("false_negative_rate: "+str(false_negative_rate))
+        self.__print("true_negative_rate: "+str(true_negative_rate))
+        self.__print("false_positive_rate: "+str(false_positive_rate))
+        self.__print("positive_prediction_value: "+str(positive_prediction_value))
+        self.__print("false_omission_rate: "+str(false_omission_rate))
+        self.__print("false_discovery_rate: "+str(false_discovery_rate))
+        self.__print("negative_prediction_value: "+str(negative_prediction_value))
+        self.__print("f_measure: "+str(f_measure))
+        self.__print("accuracy: "+str(accuracy))
+    
     # describe the dataset as images and save them
     def create_describing_images(self):
         self.__create_output_dir()
