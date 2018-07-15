@@ -13,7 +13,7 @@ pip3 install IPython
 pip3 install metrics
 ```
 
-## Depentencies
+## Dependencies
 
 A local graphviz version:
 

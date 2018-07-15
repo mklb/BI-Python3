@@ -6,7 +6,7 @@ create_describing_images = False
 # -----------------------------------------------------
 # LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
 # -----------------------------------------------------
-print("\n-------------------------------------- Train Model ------------------------------------------\n")
+print("\n-------------------------------------- TRAIN MODEL ------------------------------------------\n")
 train_data_frame = pd.read_csv('./data/train.csv')
 trainer = DataPredictionMachine("train-1", train_data_frame, True)
 trainer.describe()
@@ -26,9 +26,9 @@ trainer.evaluate(trainer.get_dataframe())
 print("Model score (train data):", score)
 
 # -----------------------------------------------------
-# LOAD THE TEST DATA, PREPERATION, PREDICTION
+# LOAD THE TEST DATA, PREPARATION, PREDICTION
 # -----------------------------------------------------
-print("\n-------------------------------------- Predict Testdata ------------------------------------------\n")
+print("\n-------------------------------------- PREDICT TESTDATA ------------------------------------------\n")
 test_data_frame = pd.read_csv('./data/test.csv')
 tester = DataPredictionMachine("test-1", test_data_frame, False)
 tester.prepare()
