@@ -36,8 +36,7 @@ class DataPredictionMachine:
         self.__print("\n")
         self.__print("Data description:\n")
         self.__print(self.dataframe.describe())
-        self.__print("\n")
-        self.__print("Categorical Attributes:\n")
+        self.__print("\n-----CATEGORICAL ATTRIBUTES-----\n")
         self.__print("All titles: ")
         self.__print(self.__getAllTitles())
         self.__print("All decks:")
@@ -46,7 +45,7 @@ class DataPredictionMachine:
         self.__print(self.__getAllTicketNrs())
         self.__print("All embarked:")
         self.__print(self.__getAllPorts())
-        self.__print("Visualize Missing Data:\n")
+        self.__print("\n-----VISUALIZE MISSING DATA-----\n")
         self.__visualizeMissings()
     
     # create missing values matrix
@@ -207,7 +206,7 @@ class DataPredictionMachine:
     # prepare dataset
     def prepare(self):
         self.__print("\n-------------------------------------- DATA PREPARATION ------------------------------------------\n")
-        self.__print("Extract Combined Attributes\n")
+        self.__print("\n-----EXTRACT COMBINED ATTRIBUTES-----\n")
         self.__pepare_titles()
         self.__prepare_surnames()
         self.__prepare_firstnames()
@@ -222,6 +221,7 @@ class DataPredictionMachine:
     # EXTRACT COMBINED ATTRIBUTES
     def __pepare_titles(self):
         # create new column named "Title" for all titles
+        self.__print("Prepare titles")
         self.dataframe['Title'] = self.dataframe['Name'].map(lambda name: self.__extractTitle(name))
     
     def __splitBrakets(self, name):
@@ -232,18 +232,23 @@ class DataPredictionMachine:
         return res
     
     def __prepare_surnames(self):
+        self.__print("Prepare surnames")
         self.dataframe['Surname'] = self.dataframe['Name'].map(lambda name:name.split(',')[0].strip())
     
     def __prepare_firstnames(self):
+        self.__print("Prepare firstnames")
         self.dataframe['FirstNames'] = self.dataframe['Name'].map(lambda name:name.split('.')[1].split('(')[0].strip())
     
     def __prepare_brakets(self):
+        self.__print("Prepare brackets")
         self.dataframe['Brakets'] = self.dataframe['Name'].map(lambda name: self.__splitBrakets(name))
     
     def __prepare_decks(self):
+        self.__print("Prepare decks")
         self.dataframe['Deck'] = self.dataframe['Cabin'].map(lambda cabin:self.__extractDeck(cabin))
     
     def __prepareNrOfCabins(self):
+        self.__print("Prepare nrOfCabins")
         self.dataframe['NrOfCabins'] = self.dataframe['Cabin'].map(lambda cabin:self.__calcNrOfCabins(cabin))
     
     def __calcNrOfCabins(self, cabin):
@@ -288,6 +293,7 @@ class DataPredictionMachine:
             row = row + 1
     
     def __prepareFamilysize(self):
+        self.__print("Prepare familysize")
         row = 0
         self.dataframe['Familysize'] = np.nan
         for parch,sibsp in zip(self.dataframe['Parch'], self.dataframe['SibSp']):
@@ -323,7 +329,7 @@ class DataPredictionMachine:
     # HANDLE MISSING VALUES
     # handle all missing values of the dataset
     def handle_missing_values(self):
-        print("\n--------------------------------------Handle Missing Values------------------------------------------\n")
+        self.__print("\n-----HANDLE MISSING VALUES-----\n")
         self.__create_output_dir()
         file_path = "./output/" + "/pre-handling_missing-values-matrix.png"
         msno.matrix(self.dataframe).figure.savefig(file_path)
@@ -382,7 +388,7 @@ class DataPredictionMachine:
     # CREATE DUMMY VARS
     # creating dummy vars for all categorical attributes
     def create_dummy_vars(self):
-        self.__print("Creating Dummy Vars: \n")
+        self.__print("\n-----CREATING DUMMY VARS-----\n")
         self.__create_dummy_vars_from_title()
         self.__create_dummy_vars_from_sex()
         self.__create_dummy_vars_from_pclass()
@@ -428,7 +434,7 @@ class DataPredictionMachine:
     # FINAL CLEAN
     # delete unused columns that are not needet for the model
     def clean(self):
-        self.__print("\n--------------------------------------DATASET CLEANING------------------------------------------\n")
+        self.__print("\n-----DATASET CLEANING-----\n")
         #columns = ['Pclass', 'Sex', 'Deck', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Brakets", "Cabin", "Embarked", "PreTicketSequence", "Fare"]
         columns = ['Pclass', 'Sex', 'Name', 'PassengerId', "Title", "Ticket", "Name", "Surname", "FirstNames", "Embarked"]
         self.__print("Deleting columns:")
@@ -437,7 +443,7 @@ class DataPredictionMachine:
 
     # print a short preview of the dataset
     def preview(self):
-        self.__print("\n--------------------------------------DATASET PREVIEW------------------------------------------\n")
+        self.__print("\n-----DATASET PREVIEW-----\n")
         self.__print(self.dataframe.head())
     
     # -----------------------------------------------------
@@ -448,7 +454,7 @@ class DataPredictionMachine:
     def generate_tree(self, max_depth):
         self.__print("\n-------------------------------------- Modelling ------------------------------------------\n")
         self.__create_output_dir()
-        self.__print("\n--------------------------------------DECISION TREE GENERATION------------------------------------------\n")
+        self.__print("\n-----DECISION TREE GENERATION-----\n")
         self.__print("Output file names: ./output/" + self.run_id + "/tree.dot ./output/" + self.run_id + "/tree.png")
         # the estimator
         self.estimator = Id3Estimator(max_depth)
@@ -524,7 +530,7 @@ class DataPredictionMachine:
     # score the current model with a given dataframe
     # this dataframe needs to have the survival columns as the first column
     def calc_score(self, other_dataframe):
-        self.__print("\n--------------------------------------SCORING------------------------------------------\n")
+        self.__print("\n-----SCORING-----\n")
         actual_survival_array = other_dataframe['Survived'].values
         predictet_survival_array = self.predict(other_dataframe.iloc[:, 1:])
         # self.__print("predictet_survival_array:\n", predictet_survival_array, "\n")
