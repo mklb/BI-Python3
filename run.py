@@ -1,20 +1,23 @@
 import pandas as pd
 from datapredictionmachine import DataPredictionMachine
 
+create_describing_images = False
+
 # -----------------------------------------------------
-# LOAD TRAIN DATA, PREVIEW, CLEAN, GENERATE TREE & LOG
+# LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
 # -----------------------------------------------------
+print("\n-------------------------------------- Train Model ------------------------------------------\n")
 train_data_frame = pd.read_csv('./data/train.csv')
 trainer = DataPredictionMachine("train-1", train_data_frame, True)
 trainer.describe()
 trainer.prepare()
 trainer.handle_missing_values()
-#trainer.create_describing_images()
+if(create_describing_images):
+    trainer.create_describing_images()
 trainer.create_dummy_vars()
 trainer.clean()
 trainer.preview()
-trainer.generate_tree(8) # no max depth
-
+trainer.generate_tree(8)
 # -----------------------------------------------------
 # CALC SCORE WITH THE TRAINED SET
 # -----------------------------------------------------
@@ -23,20 +26,24 @@ trainer.evaluate(trainer.get_dataframe())
 print("Model score (train data):", score)
 
 # -----------------------------------------------------
-# LOAD THE TEST DATA, TRANSFORM & CLEAN
+# LOAD THE TEST DATA, PREPERATION, PREDICTION
 # -----------------------------------------------------
+print("\n-------------------------------------- Predict Testdata ------------------------------------------\n")
 test_data_frame = pd.read_csv('./data/test.csv')
 tester = DataPredictionMachine("test-1", test_data_frame, False)
 tester.prepare()
 tester.handle_missing_values()
 tester.create_dummy_vars()
 tester.clean()
-
 # -----------------------------------------------------
 # PREDICT SURVIVAL FOR TEST DATA
 # -----------------------------------------------------
 predict_survival = trainer.predict(tester.get_dataframe())
 print("Predicted survival for test data:\n", predict_survival)
+
+
+
+
 
 # -----------------------------------------------------
 # SCORE AGAINST COMPLETE DATASET
