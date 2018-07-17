@@ -482,12 +482,10 @@ class DataPredictionMachine:
     def predict(self, other_dataframe):
         return self.estimator.predict(other_dataframe)
     
-    def evaluate(self, other_dataframe):
+    def evaluate(self, prediction, solution):
         self.__print("\n-------------------------------------- EVALUATION ------------------------------------------\n")
-        actual_survival_array = other_dataframe['Survived'].values
-        predictet_survival_array = self.predict(other_dataframe.iloc[:, 1:])
         from sklearn.metrics import confusion_matrix
-        confus_matrix = confusion_matrix(actual_survival_array,predictet_survival_array)
+        confus_matrix = confusion_matrix(solution,prediction)
         r1 = confus_matrix [0]
         r2 = confus_matrix [1]
         

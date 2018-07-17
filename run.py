@@ -22,7 +22,6 @@ trainer.generate_tree(8)
 # CALC SCORE WITH THE TRAINED SET
 # -----------------------------------------------------
 score = trainer.calc_score(trainer.get_dataframe())
-trainer.evaluate(trainer.get_dataframe())
 print("Model score (train data):", score)
 
 # -----------------------------------------------------
@@ -40,6 +39,9 @@ tester.clean()
 # -----------------------------------------------------
 predict_survival = trainer.predict(tester.get_dataframe())
 print("Predicted survival for test data:\n", predict_survival)
+solution = pd.read_csv('./data/gender_submission.csv')
+solution = solution['Survived'].values
+trainer.evaluate(predict_survival, solution)
 
 
 
