@@ -11,6 +11,8 @@ pip3 install numpy
 pip3 install decision-tree-id3
 pip3 install IPython 
 pip3 install metrics
+pip3 install seaborn
+pip3 install matplotlib
 ```
 
 ## Dependencies
