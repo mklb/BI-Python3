@@ -513,6 +513,10 @@ class DataPredictionMachine:
         f_measure = 2 * ((positive_prediction_value*true_positive_rate)/(positive_prediction_value+true_positive_rate))
         accuracy = (tp + tn)/(cp + cn)
         
+        self.__print("true_positive: "+str(tp))
+        self.__print("true_negative: "+str(tn))
+        self.__print("false_positive: "+str(fp))
+        self.__print("false_negative: "+str(fn))
         
         self.__print("true_positive_rate: "+str(true_positive_rate))
         self.__print("false_negative_rate: "+str(false_negative_rate))

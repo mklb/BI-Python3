@@ -17,7 +17,7 @@ if(create_describing_images):
 trainer.create_dummy_vars()
 trainer.clean()
 trainer.preview()
-trainer.generate_tree(8)
+trainer.generate_tree(6)
 # -----------------------------------------------------
 # CALC SCORE WITH THE TRAINED SET
 # -----------------------------------------------------
