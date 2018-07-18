@@ -181,9 +181,9 @@ class DataPredictionMachine:
             for var2 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
                 if(not(var1 == var2)):
                     if(not((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) or (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64))):
-                        print("not numeric")
-                        print(self.dataframe[var1].dtypes)
-                        print(self.dataframe[var2].dtypes)
+                        self.__print("not numeric")
+                        self.__print(self.dataframe[var1].dtypes)
+                        self.__print(self.dataframe[var2].dtypes)
                     else:
                         file_path = "./output/plots" + "/swarmplot_" + var1 + "-" + var2 + ".png"
                         sns.swarmplot(x=var1, y=var2, hue="Survived", data=self.dataframe).figure.savefig(file_path)
@@ -346,9 +346,9 @@ class DataPredictionMachine:
         for column,numberOfMissings in (self.dataframe.isnull().sum().items()):
             if(numberOfMissings>0):
                 if(numberOfMissings > self.dataframe.shape[0]*2//3):
-                    print("'" + column.upper() + "' has to many missing values")
+                    self.__print("'" + column.upper() + "' has to many missing values")
                     self.dataframe.drop(column, axis = 1, inplace = True)
-                    print("Dropped '" + column.upper() + "'")
+                    self.__print("Dropped '" + column.upper() + "'")
                 else:
                     self.__findMissingValueType(column)
     
@@ -362,17 +362,17 @@ class DataPredictionMachine:
         corr_triu = corr_triu.stack()
         corr_triu = corr_triu[(corr_triu > 0.7) | (corr_triu < -0.7)]
         if(corr_triu.size == 0):
-            print("'" + column.upper() + "' is Missing Completly At Random")
+            self.__print("'" + column.upper() + "' is Missing Completly At Random")
             if(self.dataframe[column].dtypes == np.float64 or self.dataframe[column].dtypes == np.int64):
                 self.dataframe[column].fillna(self.dataframe[column].mean(), inplace=True)
-                print("Filled missing values with mean for '" + column.upper() + "'")
+                self.__print("Filled missing values with mean for '" + column.upper() + "'")
             else:
                 self.dataframe[column].fillna(self.dataframe[column].mode()[0], inplace=True)
-                print("Filled missing values with mode for '" + column.upper() + "'")
+                self.__print("Filled missing values with mode for '" + column.upper() + "'")
         else:
-            print("'" + column.upper() + "' is Missing At Random or Missing Not At Random")
+            self.__print("'" + column.upper() + "' is Missing At Random or Missing Not At Random")
             self.dataframe.drop(column, axis = 1, inplace = True)
-            print("Dropped '" + column.upper() + "'")
+            self.__print("Dropped '" + column.upper() + "'")
         self.dataframe.drop(name, axis = 1, inplace = True)
     
     def __createBinaryMissingClassification(self, column):
@@ -485,15 +485,8 @@ class DataPredictionMachine:
     def evaluate(self, prediction, solution):
         self.__print("\n-------------------------------------- EVALUATION ------------------------------------------\n")
         from sklearn.metrics import confusion_matrix
-        confus_matrix = confusion_matrix(solution,prediction)
-        r1 = confus_matrix [0]
-        r2 = confus_matrix [1]
-        
-        tp = r1[0]
-        fp = r1[1]
-        fn = r2[0]
-        tn = r2[1]
-        
+        tn, fp, fn, tp = confusion_matrix(solution,prediction).ravel()
+                
         cp = tp+fn
         cn = fp+tn
         pcp = tp + fp
@@ -513,21 +506,30 @@ class DataPredictionMachine:
         f_measure = 2 * ((positive_prediction_value*true_positive_rate)/(positive_prediction_value+true_positive_rate))
         accuracy = (tp + tn)/(cp + cn)
         
-        self.__print("true_positive: "+str(tp))
-        self.__print("true_negative: "+str(tn))
-        self.__print("false_positive: "+str(fp))
-        self.__print("false_negative: "+str(fn))
+        # Evaluation is allways printed
+        print("true_positive: "+str(tp))
+        print("true_negative: "+str(tn))
+        print("false_positive: "+str(fp))
+        print("false_negative: "+str(fn))
         
-        self.__print("true_positive_rate: "+str(true_positive_rate))
-        self.__print("false_negative_rate: "+str(false_negative_rate))
-        self.__print("true_negative_rate: "+str(true_negative_rate))
-        self.__print("false_positive_rate: "+str(false_positive_rate))
-        self.__print("positive_prediction_value: "+str(positive_prediction_value))
-        self.__print("false_omission_rate: "+str(false_omission_rate))
-        self.__print("false_discovery_rate: "+str(false_discovery_rate))
-        self.__print("negative_prediction_value: "+str(negative_prediction_value))
-        self.__print("f_measure: "+str(f_measure))
-        self.__print("accuracy: "+str(accuracy))
+        print("true_positive_rate: "+str(true_positive_rate))
+        print("false_negative_rate: "+str(false_negative_rate))
+        print("true_negative_rate: "+str(true_negative_rate))
+        print("false_positive_rate: "+str(false_positive_rate))
+        print("positive_prediction_value: "+str(positive_prediction_value))
+        print("false_omission_rate: "+str(false_omission_rate))
+        print("false_discovery_rate: "+str(false_discovery_rate))
+        print("negative_prediction_value: "+str(negative_prediction_value))
+        print("f_measure: "+str(f_measure))
+        print("accuracy: "+str(accuracy))
+        
+        expected_rates = [[0 for x in range(2)] for y in range(2)]
+        expected_rates[0][0] = true_positive_rate
+        expected_rates[0][1] = false_positive_rate
+        expected_rates[1][0] = false_negative_rate
+        expected_rates[1][1] = true_negative_rate
+        
+        return expected_rates
     
     # score the current model with a given dataframe
     # this dataframe needs to have the survival columns as the first column
@@ -549,6 +551,12 @@ class DataPredictionMachine:
         # return percentage
         return right_predicted/total_array_len
 
+    def calc_expected_profit(self, expected_rates, cost_benefit_info):
+        ep = 0
+        for i in range(2):
+            for j in range(2):
+                ep = ep + expected_rates[i][j] * cost_benefit_info[i][j]
+        return ep
     # ----------------------------------------------------------------------------------------------------
     # HELPER METHODS
     # ----------------------------------------------------------------------------------------------------

@@ -2,6 +2,14 @@ import pandas as pd
 from datapredictionmachine import DataPredictionMachine
 
 create_describing_images = False
+good_customer = 1000
+bad_customer = 2000000
+loss = 2000000
+cost_benefit_info = [[0 for x in range(2)] for y in range(2)]
+cost_benefit_info[0][0] = 10          # wir sagen er überlebt und er überlebt wirklich -> versicherung hat wenig geld bekommen + muss nichts zahlen
+cost_benefit_info[0][1] = -100     # wir sagen er überlebt und er überlebt nicht    -> versicherung hat wenig geld bekommen + muss viel zahlen
+cost_benefit_info[1][0] = 10          # wir sagen er überlebt nicht und er überlebt    -> versicherung hat viel geld bekommen + muss nichts zahlen
+cost_benefit_info[1][1] = 0     # wir sagen er überlebt nicht und er stirbt      -> versicherung hat viel geld bekommen + muss viel zahlen
 
 # -----------------------------------------------------
 # LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
@@ -34,16 +42,39 @@ tester.prepare()
 tester.handle_missing_values()
 tester.create_dummy_vars()
 tester.clean()
+tester_data = tester.get_dataframe()
+predict_survival_tester = trainer.predict(tester_data)
+print("Predicted survival for test data:\n", predict_survival_tester)
 # -----------------------------------------------------
-# PREDICT SURVIVAL FOR TEST DATA
+# EVALUATE MODEL FOR TRAIN DATA
 # -----------------------------------------------------
-predict_survival = trainer.predict(tester.get_dataframe())
-print("Predicted survival for test data:\n", predict_survival)
-solution = pd.read_csv('./data/gender_submission.csv')
-solution = solution['Survived'].values
-trainer.evaluate(predict_survival, solution)
+trainer_data = trainer.get_dataframe()
+solution = trainer_data['Survived'].values
+predict_survival_trainer = trainer.predict(trainer_data.iloc[:, 1:])
+expected_rates_trainer = trainer.evaluate(predict_survival_trainer, solution)
+expected_profit_trainer = trainer.calc_expected_profit(expected_rates_trainer, cost_benefit_info)
+print("Expected Profit: " + str(expected_profit_trainer))
 
+# -----------------------------------------------------
+# COMPARISON MODEL "SEX"
+# -----------------------------------------------------
+print("\n-------------------------------------- COMPARISON MODEL 'SEX' ------------------------------------------\n")
+train_data_frame = pd.read_csv('./data/train.csv')
+comparer_sex = DataPredictionMachine("train-1", train_data_frame, False)
+comparer_sex.prepare()
+comparer_sex.handle_missing_values()
+comparer_sex.create_dummy_vars()
+comparer_sex.clean()
+comparer_sex.generate_tree(1)
+comparer_sex_data = comparer_sex.get_dataframe()
+solution = comparer_sex_data['Survived'].values
+predict_survival_comparer_sex = comparer_sex.predict(comparer_sex_data.iloc[:, 1:])
+expected_rates_comparer_sex = comparer_sex.evaluate(predict_survival_comparer_sex, solution)
+expected_profit_comparer_sex = comparer_sex.calc_expected_profit(expected_rates_comparer_sex, cost_benefit_info)
+print("Expected Profit: " + str(expected_profit_comparer_sex))
 
+if(expected_profit_trainer > expected_profit_comparer_sex):
+    print("Better than baseline")
 
 
 
