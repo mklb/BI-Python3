@@ -2,14 +2,16 @@ import pandas as pd
 from datapredictionmachine import DataPredictionMachine
 
 create_describing_images = False
-good_customer = 1000
-bad_customer = 2000000
-loss = 2000000
-cost_benefit_info = [[0 for x in range(2)] for y in range(2)]
-cost_benefit_info[0][0] = 10          # wir sagen er überlebt und er überlebt wirklich -> versicherung hat wenig geld bekommen + muss nichts zahlen
-cost_benefit_info[0][1] = -100     # wir sagen er überlebt und er überlebt nicht    -> versicherung hat wenig geld bekommen + muss viel zahlen
-cost_benefit_info[1][0] = 10          # wir sagen er überlebt nicht und er überlebt    -> versicherung hat viel geld bekommen + muss nichts zahlen
-cost_benefit_info[1][1] = 0     # wir sagen er überlebt nicht und er stirbt      -> versicherung hat viel geld bekommen + muss viel zahlen
+
+def init_cost_benefit_matrix(good_customer, loss):
+    cost_benefit_info = [[0 for x in range(2)] for y in range(2)]
+    cost_benefit_info[0][0] = good_customer-0          # wir sagen er überlebt und er überlebt wirklich -> versicherung hat wenig geld bekommen + muss nichts zahlen
+    cost_benefit_info[0][1] = good_customer-loss     # wir sagen er überlebt und er überlebt nicht    -> versicherung hat wenig geld bekommen + muss viel zahlen
+    cost_benefit_info[1][0] = 0-good_customer          # wir sagen er überlebt nicht und er überlebt    -> versicherung hat viel geld bekommen + muss nichts zahlen
+    cost_benefit_info[1][1] = 0     # wir sagen er überlebt nicht und er stirbt      -> versicherung hat viel geld bekommen + muss viel zahlen
+
+init_cost_benefit_matrix(50, 80000)
+
 
 # -----------------------------------------------------
 # LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
@@ -74,8 +76,7 @@ expected_profit_comparer_sex = comparer_sex.calc_expected_profit(expected_rates_
 print("Expected Profit: " + str(expected_profit_comparer_sex))
 
 if(expected_profit_trainer > expected_profit_comparer_sex):
-    print("Better than baseline")
-
+    print("\n\n\n The developed modell is better than gender-only baseline!")
 
 
 # -----------------------------------------------------
