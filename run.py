@@ -1,12 +1,31 @@
 import pandas as pd
 from datapredictionmachine import DataPredictionMachine
 from helper import CostBenefitMatrix
+import sys
 
+
+use_log_file = True
 create_describing_images = False
 create_missing_value_matrix = False
 log_output_training = True
 log_output_testing = False
 cost_benefit = CostBenefitMatrix(5, 2000)
+
+if(use_log_file):
+    print("\n\n---------------------\nEverything will be written to messages.log.\n--------------------\n\n")
+    old_stdout = sys.stdout
+    log_file = open("log-file.log","w")
+    sys.stdout = log_file
+
+print("Logging run:\n\n")
+
+print("settings:")
+print("create_describing_images = " + str(create_describing_images))
+print("create_missing_value_matrix = " + str(create_missing_value_matrix))
+print("log_output_training = " + str(log_output_training))
+print("log_output_testing = " + str(log_output_testing))
+print("\n")
+
 
 # -----------------------------------------------------
 # LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
@@ -78,9 +97,10 @@ if(expected_profit_trainer > expected_profit_comparer_sex):
 
 
 
-
-
-
+if(use_log_file):
+    sys.stdout = old_stdout
+    log_file.close()
+    print("\n\n---------------------\nEverything was written to messages.log.\n--------------------\n\n")
 
 # -----------------------------------------------------
 # SCORE AGAINST COMPLETE DATASET

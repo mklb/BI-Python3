@@ -1,0 +1,218 @@
+Logging run:
+
+
+settings:
+create_describing_images = False
+create_missing_value_matrix = False
+log_output_training = True
+log_output_testing = False
+
+
+
+-------------------------------------- TRAIN MODEL ------------------------------------------
+
+
+-------------------------------------- DATA UNDERSTANDING ------------------------------------------
+
+Data preview:
+
+   PassengerId  Survived  Pclass  \
+0            1         0       3   
+1            2         1       1   
+2            3         1       3   
+3            4         1       1   
+4            5         0       3   
+
+                                                Name     Sex   Age  SibSp  \
+0                            Braund, Mr. Owen Harris    male  22.0      1   
+1  Cumings, Mrs. John Bradley (Florence Briggs Th...  female  38.0      1   
+2                             Heikkinen, Miss. Laina  female  26.0      0   
+3       Futrelle, Mrs. Jacques Heath (Lily May Peel)  female  35.0      1   
+4                           Allen, Mr. William Henry    male  35.0      0   
+
+   Parch            Ticket     Fare Cabin Embarked  
+0      0         A/5 21171   7.2500   NaN        S  
+1      0          PC 17599  71.2833   C85        C  
+2      0  STON/O2. 3101282   7.9250   NaN        S  
+3      0            113803  53.1000  C123        S  
+4      0            373450   8.0500   NaN        S  
+
+
+Data shape:
+
+(891, 12)
+
+
+Data description:
+
+       PassengerId    Survived      Pclass         Age       SibSp  \
+count   891.000000  891.000000  891.000000  714.000000  891.000000   
+mean    446.000000    0.383838    2.308642   29.699118    0.523008   
+std     257.353842    0.486592    0.836071   14.526497    1.102743   
+min       1.000000    0.000000    1.000000    0.420000    0.000000   
+25%     223.500000    0.000000    2.000000   20.125000    0.000000   
+50%     446.000000    0.000000    3.000000   28.000000    0.000000   
+75%     668.500000    1.000000    3.000000   38.000000    1.000000   
+max     891.000000    1.000000    3.000000   80.000000    8.000000   
+
+            Parch        Fare  
+count  891.000000  891.000000  
+mean     0.381594   32.204208  
+std      0.806057   49.693429  
+min      0.000000    0.000000  
+25%      0.000000    7.910400  
+50%      0.000000   14.454200  
+75%      0.000000   31.000000  
+max      6.000000  512.329200  
+
+-----CATEGORICAL ATTRIBUTES-----
+
+All titles: 
+{'Mr': 517, 'Mrs': 126, 'Miss': 185, 'Child': 40, 'Don': 1, 'Rev': 6, 'Dr': 7, 'Major': 2, 'Lady': 1, 'Sir': 1, 'Col': 2, 'Capt': 1, 'the Countess': 1, 'Jonkheer': 1}
+All decks:
+{nan: 687, 'C': 59, 'E': 32, 'G': 4, 'D': 33, 'A': 15, 'B': 47, 'F': 13, 'T': 1}
+All ticket sequences:
+{'A/5': 10, 'PC': 60, 'STON/O2.': 6, nan: 661, 'PP': 3, 'A/5.': 7, 'C.A.': 27, 'A./5.': 2, 'SC/Paris': 4, 'S.C./A.4.': 1, 'A/4.': 3, 'CA': 6, 'S.P.': 1, 'S.O.C.': 5, 'SO/C': 1, 'W./C.': 9, 'SOTON/OQ': 7, 'W.E.P.': 1, 'STON/O': 12, 'A4.': 1, 'C': 5, 'SOTON/O.Q.': 8, 'SC/PARIS': 5, 'S.O.P.': 1, 'A.5.': 2, 'Fa': 1, 'CA.': 8, 'LINE': 4, 'F.C.C.': 5, 'W/C': 1, 'SW/PP': 1, 'SCO/W': 1, 'P/PP': 2, 'SC': 1, 'SC/AH': 3, 'A/S': 1, 'A/4': 3, 'WE/P': 2, 'S.W./PP': 1, 'S.O./P.P.': 3, 'F.C.': 1, 'SOTON/O2': 2, 'S.C./PARIS': 2, 'C.A./SOTON': 1}
+All embarked:
+{'S': 644, 'C': 168, 'Q': 77, nan: 2}
+
+-----VISUALIZE MISSING DATA-----
+
+
+-------------------------------------- DATA PREPARATION ------------------------------------------
+
+
+-----EXTRACT COMBINED ATTRIBUTES-----
+
+Prepare titles
+Prepare surnames
+Prepare firstnames
+Prepare brackets
+Prepare decks
+Prepare nrOfCabins
+Prepare familysize
+
+-----HANDLE MISSING VALUES-----
+
+'AGE' is Missing Completly At Random
+Filled missing values with mean for 'AGE'
+'CABIN' has to many missing values
+Dropped 'CABIN'
+'EMBARKED' is Missing Completly At Random
+Filled missing values with mode for 'EMBARKED'
+'BRAKETS' has to many missing values
+Dropped 'BRAKETS'
+'DECK' has to many missing values
+Dropped 'DECK'
+'NROFCABINS' has to many missing values
+Dropped 'NROFCABINS'
+'FAREPERCABIN' has to many missing values
+Dropped 'FAREPERCABIN'
+'PRETICKETSEQUENCE' has to many missing values
+Dropped 'PRETICKETSEQUENCE'
+
+-----CREATING DUMMY VARS-----
+
+create_dummy_vars_from_title():  Title -> Royal / Rare / Child 
+
+create_dummy_vars_from_sex():  Sex -> Male / Female 
+
+create_dummy_vars_from_pclass():  Pclass -> FirstClass / SecondClass / ThirdClass 
+
+create_dummy_vars_from_embarked():  Embarked -> PortS / PortC / PortQ 
+
+
+-----DATASET CLEANING-----
+
+Deleting columns:
+['Pclass', 'Sex', 'Name', 'PassengerId', 'Title', 'Ticket', 'Name', 'Surname', 'FirstNames', 'Embarked']
+
+-----DATASET PREVIEW-----
+
+   Survived   Age  SibSp  Parch     Fare  Familysize  FarePerPerson  Royal  \
+0         0  22.0      1      0   7.2500         2.0        3.62500  False   
+1         1  38.0      1      0  71.2833         2.0       35.64165  False   
+2         1  26.0      0      0   7.9250         1.0        7.92500  False   
+3         1  35.0      1      0  53.1000         2.0       26.55000  False   
+4         0  35.0      0      0   8.0500         1.0        8.05000  False   
+
+    Rare  Child   Male  Female  FirstClass  SecondClass  ThirdClass  PortS  \
+0  False  False   True   False       False        False        True   True   
+1  False  False  False    True        True        False       False  False   
+2  False  False  False    True       False        False        True   True   
+3  False  False  False    True        True        False       False   True   
+4  False  False   True   False       False        False        True   True   
+
+   PortC  PortQ  
+0  False  False  
+1   True  False  
+2  False  False  
+3  False  False  
+4  False  False  
+
+-------------------------------------- Modelling ------------------------------------------
+
+
+-----DECISION TREE GENERATION-----
+
+Output file names: ./output/train-1/tree.dot ./output/train-1/tree.png
+
+-----SCORING-----
+
+Model score (train data): 0.8664421997755332
+
+-------------------------------------- PREDICT TESTDATA ------------------------------------------
+
+Predicted survival for test data:
+ [0 0 0 0 1 0 1 0 1 0 0 0 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1 0 0 0 0 0 1 0 0 0 0
+ 0 0 1 0 1 0 1 1 0 0 0 1 1 0 0 1 1 0 0 0 0 0 1 0 0 0 1 1 1 1 0 0 1 1 0 1 0
+ 1 0 0 1 0 1 1 1 0 0 0 0 1 0 1 1 1 0 1 0 0 0 1 0 1 0 1 0 0 0 1 0 0 0 0 0 0
+ 1 1 1 1 0 0 1 0 1 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0
+ 1 0 1 0 0 1 0 0 1 1 1 1 1 1 1 0 0 1 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0 0 1 0 1
+ 0 1 0 0 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 0 1 0 1 0 0 0 0 1 0 0 1 1 1 0 1 0
+ 1 0 1 1 0 1 0 0 0 1 0 0 0 0 1 0 1 1 1 1 0 0 1 0 1 0 1 1 1 0 0 0 0 0 0 0 1
+ 0 0 0 1 1 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 1 0 0 0 0
+ 1 0 0 0 0 0 0 0 1 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 0 1 0 0 0 1 0 0
+ 1 0 0 0 0 0 1 0 0 0 1 1 1 0 0 0 1 1 0 0 0 1 0 1 0 0 1 0 1 1 0 1 0 0 1 1 0
+ 0 1 0 0 1 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 1 0 0 1 0 1 0 0 1 0 1 0 0 0 0
+ 0 1 1 1 1 1 0 1 0 0 1]
+
+-------------------------------------- EVALUATION ------------------------------------------
+
+true_positive: 261
+true_negative: 511
+false_positive: 38
+false_negative: 81
+true_positive_rate: 0.7631578947368421
+false_negative_rate: 0.23684210526315788
+true_negative_rate: 0.930783242258652
+false_positive_rate: 0.0692167577413479
+positive_prediction_value: 0.8729096989966555
+false_omission_rate: 0.13682432432432431
+false_discovery_rate: 0.12709030100334448
+negative_prediction_value: 0.8631756756756757
+f_measure: 0.8143525741029641
+accuracy: 0.8664421997755332
+Expected Profit: -135.45585274662062
+
+-------------------------------------- COMPARISON MODEL 'SEX' ------------------------------------------
+
+true_positive: 233
+true_negative: 468
+false_positive: 81
+false_negative: 109
+true_positive_rate: 0.6812865497076024
+false_negative_rate: 0.31871345029239767
+true_negative_rate: 0.8524590163934426
+false_positive_rate: 0.14754098360655737
+positive_prediction_value: 0.7420382165605095
+false_omission_rate: 0.18890814558058924
+false_discovery_rate: 0.25796178343949044
+negative_prediction_value: 0.8110918544194108
+f_measure: 0.7103658536585367
+accuracy: 0.7867564534231201
+Expected Profit: -292.53139679800597
+
+
+
+ The developed modell is better than gender-only baseline!
