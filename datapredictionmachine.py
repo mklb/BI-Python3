@@ -328,19 +328,21 @@ class DataPredictionMachine:
     
     # HANDLE MISSING VALUES
     # handle all missing values of the dataset
-    def handle_missing_values(self):
+    def handle_missing_values(self, create_missing_value_matrix):
         self.__print("\n-----HANDLE MISSING VALUES-----\n")
         self.__create_output_dir()
         file_path = "./output/" + "/pre-handling_missing-values-matrix.png"
-        msno.matrix(self.dataframe).figure.savefig(file_path)
-        #plt.show()
-        #plt.clf()
+        if(create_missing_value_matrix):
+            msno.matrix(self.dataframe).figure.savefig(file_path)
+            #plt.show()
+            #plt.clf()
         self.__findAllMissingValueTypes()
         self.__create_output_dir()
         file_path = "./output/" + "/post-handling_missing-values-matrix.png"
-        msno.matrix(self.dataframe).figure.savefig(file_path)
-        #plt.show()
-        #plt.clf()
+        if(create_missing_value_matrix):
+            msno.matrix(self.dataframe).figure.savefig(file_path)
+            #plt.show()
+            #plt.clf()
     
     def __findAllMissingValueTypes(self):
         for column,numberOfMissings in (self.dataframe.isnull().sum().items()):

@@ -1,27 +1,22 @@
 import pandas as pd
 from datapredictionmachine import DataPredictionMachine
+from helper import CostBenefitMatrix
 
 create_describing_images = False
-
-def init_cost_benefit_matrix(good_customer, loss):
-    cost_benefit_info = [[0 for x in range(2)] for y in range(2)]
-    cost_benefit_info[0][0] = good_customer-0          # wir sagen er überlebt und er überlebt wirklich -> versicherung hat wenig geld bekommen + muss nichts zahlen
-    cost_benefit_info[0][1] = good_customer-loss     # wir sagen er überlebt und er überlebt nicht    -> versicherung hat wenig geld bekommen + muss viel zahlen
-    cost_benefit_info[1][0] = 0-good_customer          # wir sagen er überlebt nicht und er überlebt    -> versicherung hat viel geld bekommen + muss nichts zahlen
-    cost_benefit_info[1][1] = 0     # wir sagen er überlebt nicht und er stirbt      -> versicherung hat viel geld bekommen + muss viel zahlen
-
-init_cost_benefit_matrix(50, 80000)
-
+create_missing_value_matrix = False
+log_output_training = True
+log_output_testing = False
+cost_benefit = CostBenefitMatrix(5, 2000)
 
 # -----------------------------------------------------
 # LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
 # -----------------------------------------------------
 print("\n-------------------------------------- TRAIN MODEL ------------------------------------------\n")
 train_data_frame = pd.read_csv('./data/train.csv')
-trainer = DataPredictionMachine("train-1", train_data_frame, True)
+trainer = DataPredictionMachine("train-1", train_data_frame, log_output_training)
 trainer.describe()
 trainer.prepare()
-trainer.handle_missing_values()
+trainer.handle_missing_values(create_missing_value_matrix)
 if(create_describing_images):
     trainer.create_describing_images()
 trainer.create_dummy_vars()
@@ -39,9 +34,9 @@ print("Model score (train data):", score)
 # -----------------------------------------------------
 print("\n-------------------------------------- PREDICT TESTDATA ------------------------------------------\n")
 test_data_frame = pd.read_csv('./data/test.csv')
-tester = DataPredictionMachine("test-1", test_data_frame, False)
+tester = DataPredictionMachine("test-1", test_data_frame, log_output_testing)
 tester.prepare()
-tester.handle_missing_values()
+tester.handle_missing_values(create_missing_value_matrix)
 tester.create_dummy_vars()
 tester.clean()
 tester_data = tester.get_dataframe()
@@ -51,6 +46,7 @@ print("Predicted survival for test data:\n", predict_survival_tester)
 # EVALUATE MODEL FOR TRAIN DATA
 # -----------------------------------------------------
 trainer_data = trainer.get_dataframe()
+cost_benefit_info = cost_benefit.get_cost_benefit_matrix_info()
 solution = trainer_data['Survived'].values
 predict_survival_trainer = trainer.predict(trainer_data.iloc[:, 1:])
 expected_rates_trainer = trainer.evaluate(predict_survival_trainer, solution)
@@ -62,9 +58,10 @@ print("Expected Profit: " + str(expected_profit_trainer))
 # -----------------------------------------------------
 print("\n-------------------------------------- COMPARISON MODEL 'SEX' ------------------------------------------\n")
 train_data_frame = pd.read_csv('./data/train.csv')
+cost_benefit_info = cost_benefit.get_cost_benefit_matrix_info()
 comparer_sex = DataPredictionMachine("train-1", train_data_frame, False)
 comparer_sex.prepare()
-comparer_sex.handle_missing_values()
+comparer_sex.handle_missing_values(create_missing_value_matrix)
 comparer_sex.create_dummy_vars()
 comparer_sex.clean()
 comparer_sex.generate_tree(1)
@@ -77,6 +74,12 @@ print("Expected Profit: " + str(expected_profit_comparer_sex))
 
 if(expected_profit_trainer > expected_profit_comparer_sex):
     print("\n\n\n The developed modell is better than gender-only baseline!")
+
+
+
+
+
+
 
 
 # -----------------------------------------------------
