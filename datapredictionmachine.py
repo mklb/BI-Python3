@@ -163,11 +163,13 @@ class DataPredictionMachine:
         plt.clf()
     
     def __draw_single_plots(self):
+        # draw bar charts for categorical
         for col in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize"]:
             file_path = "./output/plots" + "/" + col + ".png"
             sns.factorplot(col, data=self.dataframe, kind="count").savefig(file_path)
             plt.show()
             plt.clf()
+        # draw histograms for numerical
         for col in ["Age", "Fare", "FarePerPerson"]:
             file_path = "./output/plots" + "/histograms_" + col + ".png"
             fg = sns.FacetGrid(data=self.dataframe)
@@ -177,20 +179,24 @@ class DataPredictionMachine:
             plt.clf()
     
     def __draw_swarmplot_and_lmplots(self):
+        # draw combined plots
         for var1 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
             for var2 in ["Survived", "Sex", "Pclass", "SibSp", "Parch", "Embarked", "Familysize", "Age", "Fare", "FarePerPerson"]:
                 if(not(var1 == var2)):
                     if(not((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) or (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64))):
+                        # cant draw plot
                         self.__print("not numeric")
                         self.__print(self.dataframe[var1].dtypes)
                         self.__print(self.dataframe[var2].dtypes)
                     else:
+                        # draw swarmplots
                         file_path = "./output/plots" + "/swarmplot_" + var1 + "-" + var2 + ".png"
                         sns.swarmplot(x=var1, y=var2, hue="Survived", data=self.dataframe).figure.savefig(file_path)
                         plt.show()
                         plt.clf()
                     
                     if((self.dataframe[var1].dtypes == np.float64 or self.dataframe[var1].dtypes == np.int64) and (self.dataframe[var2].dtypes == np.float64 or self.dataframe[var2].dtypes == np.int64)):
+                        # draw lmplots
                         file_path = "./output/plots" + "/lmplot_" + var1 + "-" + var2 + ".png"
                         sns.lmplot(x=var1, y=var2, data=self.dataframe, y_jitter=.03).savefig(file_path)
                         plt.show()
@@ -348,6 +354,7 @@ class DataPredictionMachine:
         for column,numberOfMissings in (self.dataframe.isnull().sum().items()):
             if(numberOfMissings>0):
                 if(numberOfMissings > self.dataframe.shape[0]*2//3):
+                    # to many missing values
                     self.__print("'" + column.upper() + "' has to many missing values")
                     self.dataframe.drop(column, axis = 1, inplace = True)
                     self.__print("Dropped '" + column.upper() + "'")
@@ -357,6 +364,7 @@ class DataPredictionMachine:
     def __findMissingValueType(self, column):
         self.__createBinaryMissingClassification(column)
         name = column + 'Missing'
+        # create correlation matrix, then compress and filter
         corr = self.dataframe.corr()
         np.fill_diagonal(corr.values, 0)
         corr_filtered = corr.filter([name], axis=0)
@@ -364,14 +372,18 @@ class DataPredictionMachine:
         corr_triu = corr_triu.stack()
         corr_triu = corr_triu[(corr_triu > 0.7) | (corr_triu < -0.7)]
         if(corr_triu.size == 0):
+            # MCAR
             self.__print("'" + column.upper() + "' is Missing Completly At Random")
             if(self.dataframe[column].dtypes == np.float64 or self.dataframe[column].dtypes == np.int64):
+                # replace with mean
                 self.dataframe[column].fillna(self.dataframe[column].mean(), inplace=True)
                 self.__print("Filled missing values with mean for '" + column.upper() + "'")
             else:
+                # replace with mode
                 self.dataframe[column].fillna(self.dataframe[column].mode()[0], inplace=True)
                 self.__print("Filled missing values with mode for '" + column.upper() + "'")
         else:
+            # MAR or MNAR
             self.__print("'" + column.upper() + "' is Missing At Random or Missing Not At Random")
             self.dataframe.drop(column, axis = 1, inplace = True)
             self.__print("Dropped '" + column.upper() + "'")
@@ -488,12 +500,12 @@ class DataPredictionMachine:
         self.__print("\n-------------------------------------- EVALUATION ------------------------------------------\n")
         from sklearn.metrics import confusion_matrix
         tn, fp, fn, tp = confusion_matrix(solution,prediction).ravel()
-                
+        
+        # calc all values from confusion matrix
         cp = tp+fn
         cn = fp+tn
         pcp = tp + fp
         pcn = fn + tn
-        
         
         true_positive_rate = tp / (cp)
         false_negative_rate = fn / (cp)

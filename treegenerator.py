@@ -9,6 +9,7 @@ scores = {}
 
 # -----------------------------------------------------
 # LOAD TRAIN DATA, CLEAN, GENERATE TREE OF DEPTH i
+# all trees will be saved in ./output/tree-generator-i
 # -----------------------------------------------------
 for i in range(min_depth,max_depth+1):
   test_id = "tree-generator-" + str(i)

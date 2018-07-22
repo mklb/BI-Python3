@@ -10,6 +10,8 @@ train_data_12_frame = pd.read_csv('./data/party/1u2.csv')
 train_data_13_frame = pd.read_csv('./data/party/1u3.csv')
 train_data_23_frame = pd.read_csv('./data/party/2u3.csv')
 
+# trees will be saved in ./output/overfitting-i
+
 trainer = DataPredictionMachine("overfitting-1", train_data_12_frame, False)
 trainer.describe()
 trainer.prepare()

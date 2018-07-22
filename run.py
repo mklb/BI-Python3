@@ -3,13 +3,13 @@ from datapredictionmachine import DataPredictionMachine
 from helper import CostBenefitMatrix
 import sys
 
-
-use_log_file = True
-create_describing_images = False
-create_missing_value_matrix = False
-log_output_training = True
-log_output_testing = False
-cost_benefit = CostBenefitMatrix(5, 2000)
+# settings that can be changed
+use_log_file = False                    # <- set True to create a log file (will be overwritten each time)
+create_describing_images = False        # <- set True to create describing images (creating images will take quite long)
+create_missing_value_matrix = False     # <- set True to create missing value matrices each time before and after handling missing values (will spam the output) (at least one is drawn each run)
+log_output_training = True              # <- set True to see all logs during training
+log_output_testing = False              # <- set True to see all logs during training
+cost_benefit = CostBenefitMatrix(5, 2000)   # <- determine cost-benefit-matrix (price, loss)
 
 if(use_log_file):
     print("\n\n---------------------\nEverything will be written to messages.log.\n--------------------\n\n")
@@ -29,6 +29,7 @@ print("\n")
 
 # -----------------------------------------------------
 # LOAD TRAIN DATA, UNDERSTANDING, PREPERATION, MODELING (TREE)
+# tree will be saved in ./output/train-1
 # -----------------------------------------------------
 print("\n-------------------------------------- TRAIN MODEL ------------------------------------------\n")
 train_data_frame = pd.read_csv('./data/train.csv')
